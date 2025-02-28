@@ -18,7 +18,7 @@ const AuthStack:StaticParamList = createNativeStackNavigator({
 
 const TaskStack:StaticParamList = createNativeStackNavigator({
     screens:{
-        MemberTaskScreen:MemberTaskScreen
+        MemberTaskScreen
     },
     id:undefined
 });
