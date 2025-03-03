@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, FlatList, Modal, StyleSheet, View } from "react-native";
+import { SafeAreaView, FlatList, Modal, StyleSheet, View, ActivityIndicator } from "react-native";
 import CustomButton from "../components/CustomButton";
 import LogoutButton from "../components/LogoutButton";
 import { useSelector } from "react-redux";
@@ -7,25 +7,35 @@ import store, { RootState } from "../store/Store";
 import CustomFlatListItem from "../components/CustomFlatListItem";
 import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
+import { StaticScreenProps } from "@react-navigation/native";
+import LinearGradient from "react-native-linear-gradient";
+import { PURPLE, BLACK } from "../res/colors";
+import Subtext from "../components/Subtext";
 
-const LeaderMemberView:React.FC = () => {
+type Props = StaticScreenProps<{
+    teamName:string
+}>
+
+interface MemberType {
+    name:string
+}
+
+const LeaderMemberView:React.FC<Props> = (props) => {
+    const {teamName} = props.route.params
 
     const login = useSelector((state:RootState) => state.login);
     const teams = useSelector((state:RootState) => state.teams);
 
     const navigation = useNavigation();
     
-    const [teamName, setTeamName] = useState<string>('');
+    //const [teamName, setTeamName] = useState<string>('');
     const [createTeamModalVisible, setCreateTeamModalVisible] = useState<boolean>(false);
 
     const [teamMembers, setTeamMembers] = useState<object>({});
 
-    const onCreateTeamPress = async(teamName:string):Promise<void> => {
-        FirestoreHelper.createTeam('Users', login.data._data.email,teamName)
-    }
 
-    const onViewButtonPress = () => {
-
+    const onViewButtonPress = (collectionName:string, docName:string, teamName:string, memberName:string, memberId:string) => {
+        store.dispatch({type:'ADD_MEMBER_TO_TEAM', payload:{collectionName, docName, teamName, memberName, memberId}})
     }
     const onDeleteButtonPress = () => {
 
@@ -34,58 +44,74 @@ const LeaderMemberView:React.FC = () => {
     const getMembers = async (collectionName:string) => {
         // let members = await FirestoreHelper.getMemberUsers('Users');
         // setTeamMembers(members);
-        store.dispatch({type:'GET_MEMBER_USERS', payload:{collectionName}})
+        store.dispatch({type:'GET_MEMBER_USERS', payload:{collectionName, teamName}})
     }
 
-    const toRenderFlatListItem = ({item}:{item:string}) => {
+
+    const toRenderCurrentMembersFlatListItem = ({item, index}:{item:string, index:number}):React.JSX.Element => {
+        console.log("lads;khj: " +JSON.stringify(teams.teams[teamName].members[item]));
         return(
             <CustomFlatListItem
-                text={login.data._data.teams[item].name}
+                text={Object.keys(teams.teams[teamName].members)[index]}
                 onViewPress={() => onViewButtonPress}
                 onDeletePress={() => onDeleteButtonPress}
             />
         )
     }
-    const toRenderMemberFlatListItem = ({item, index}:{item:string, index:number}) => {
+    const toRenderAllMembersFlatListItem = ({item}:{item:MemberType}):React.JSX.Element => {
         return(
             <CustomFlatListItem
-                text={teams.data._docs[index].name}
-                onViewPress={() => onViewButtonPress}
+                text={item._data.name}
+                onViewPress={() => onViewButtonPress('Users', login.data._data.email, teamName, item._data.name, item._data.email)}
                 onDeletePress={() => onDeleteButtonPress}
             />
         )
+    }
+    const onCancelButtonPress = ():void => {
+        navigation.goBack();
     }
 
     useEffect(
         () => {
             getMembers('Users');
+            console.log(teams.teams[teamName].members);
+            console.log("teamname: " + teamName)
         },[]
     )
     return(
+        <LinearGradient style={{flex:1}}
+                    colors={[PURPLE, BLACK, BLACK]}
+                    locations={[0, .1, 1]}
+                    start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
+        >
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={Object.keys(login.data._data.teams)}
-                renderItem={toRenderFlatListItem}
+            <Subtext
+                text={"Add Members to Team"}
             />
-            {/* <View  style={styles.centeredView}>
-                <Modal
-                    visible={createTeamModalVisible}
-                    transparent={true}
-                >
-                    <View style={styles.modalContainer}>
-                        <FlatList
-                            data={teams.data._docs}
-                            renderItem={toRenderMemberFlatListItem}
-                        />
-                        <CustomButton
-                            text="Create Team"
-                            onPress={() => onCreateTeamPress(teamName)}
-                        />
-                    </View>
-                </Modal>
-            </View> */}
-            <LogoutButton/>
+            <View style={styles.flatlistViewContainer}>
+                <Subtext
+                    text={"Current Members"}
+                />
+                <FlatList
+                    data={Object.keys(teams.teams[teamName].members)}
+                    renderItem={toRenderCurrentMembersFlatListItem}
+                />
+            </View>
+            <View style={styles.flatlistViewContainer}>
+                <Subtext
+                        text={"Other Members"}
+                />
+                <FlatList
+                    data={teams.members._docs}
+                    renderItem={toRenderAllMembersFlatListItem}
+                />
+            </View>
+            <CustomButton
+                text="Cancel"
+                onPress={():void => onCancelButtonPress()}
+            />
         </SafeAreaView>
+        </LinearGradient>
     );
 };
 
@@ -98,25 +124,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    modalContainer: {
-        width: '60%',
+    flatlistViewContainer: {
+        height: '40%',
+        width: '80%',
         borderWidth: 1,
-        borderRadius: 20,
-        borderColor: 'orange',
-        alignItems: 'center',
-        justifyContent: 'center',
+        borderColor: 'white',
         alignSelf: 'center',
-        backgroundColor: 'orange',
-        margin: 10,
-        padding: 50,
-        shadowColor: 'black',
-        shadowRadius:20,
-        shadowOpacity: .50,
-        elevation: 2,
-        shadowOffset: {
-            width: 25,
-            height: 25
-        }
+        borderRadius: 10,
+        margin: '1%'
     }
 })
 export default LeaderMemberView;

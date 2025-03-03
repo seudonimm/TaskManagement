@@ -9,7 +9,8 @@ import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
 import CustomInputField from "../components/CustomInputField";
 import { collection } from "@react-native-firebase/firestore";
-import { BLACK } from "../res/colors";
+import { BLACK, PURPLE } from "../res/colors";
+import LinearGradient from "react-native-linear-gradient";
 
 const LeaderTeamView:React.FC = () => {
 
@@ -30,7 +31,7 @@ const LeaderTeamView:React.FC = () => {
     }
 
     const onViewButtonPress = (teamName:string) => {
-        navigation.navigate('LeaderMemberView', teamName);
+        navigation.navigate('LeaderMemberView', {teamName});
     }
     const onDeleteButtonPress = () => {
 
@@ -39,7 +40,7 @@ const LeaderTeamView:React.FC = () => {
     const getMembers = async (collectionName:string) => {
         // let members = await FirestoreHelper.getMemberUsers('Users');
         // setTeamMembers(members);
-        store.dispatch({type:'GET_MEMBER_USERS', payload:{collectionName}})
+        //store.dispatch({type:'GET_MEMBER_USERS', payload:{collectionName}})
     }
 
     const toRenderFlatListItem = ({item}:{item:string}) => {
@@ -68,6 +69,11 @@ const LeaderTeamView:React.FC = () => {
         },[]
     )
     return(
+        <LinearGradient style={{flex:1}}
+            colors={[PURPLE, BLACK, BLACK]}
+            locations={[0, .1, 1]}
+            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
+        >
         <SafeAreaView style={styles.container}>
 
             <CustomButton
@@ -101,13 +107,14 @@ const LeaderTeamView:React.FC = () => {
             </View>
             <LogoutButton/>
         </SafeAreaView>
+        </LinearGradient>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: BLACK
+        //backgroundColor: BLACK
     },
     centeredView: {
         flex: 1,
@@ -126,8 +133,8 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         verticalAlign: 'middle',
         backgroundColor: 'orange',
-        // margin: 10,
-        // padding: 50,
+        margin: 10,
+        padding: '5%',
         shadowColor: 'black',
         shadowRadius:20,
         shadowOpacity: .50,

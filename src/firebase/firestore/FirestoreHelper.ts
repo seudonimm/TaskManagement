@@ -1,5 +1,5 @@
 import { firebase } from '@react-native-firebase/auth';
-import firestore, {  collection, serverTimestamp } from '@react-native-firebase/firestore'
+import firestore, {  collection, Filter, serverTimestamp, Timestamp } from '@react-native-firebase/firestore'
 
 
 class FirestoreHelper{
@@ -83,15 +83,19 @@ class FirestoreHelper{
     addMemberToTeam = async(collectionName:string, docName:string, teamName:string, memberName:string, memberId:string) => {
         try {
             await firestore().collection(collectionName).doc(docName).update({
-                [`teams.${teamName}.${memberName}`]: memberId
+                [`teams.${teamName}.members.${memberName}`]: memberId
             });
+            await firestore().collection(collectionName).doc(memberId).update({
+                teams: firestore.FieldValue.arrayUnion(teamName)
+            })
         } catch (e) {
             console.log(e);
         }
     }
 
-    getMemberUsers = async(collectionName:string) => {
+    getMemberUsers = async(collectionName:string, teamName:string) => {
         try {
+            //let res = firestore().collection(collectionName).where(Filter.and(Filter('leader', '==', false), Filter('teams', 'array-contains', teamName))).get();
             let res = firestore().collection(collectionName).where('leader', '==', false).get();
             return res;
         } catch (e) {
@@ -99,7 +103,24 @@ class FirestoreHelper{
         }
     }
 
-
+    createTask = async(collectionName:string, docName:string, assignedTo:string, task:string, dateAssigned:Timestamp, dateDue:Timestamp) => {
+        try {
+            let res = await firestore().collection(collectionName).doc(docName).set({
+                assignedTo:assignedTo,
+                task:task,
+                dateAssigned:dateAssigned,
+                dateDue:dateDue,
+            });
+            await res.doc(docName).collection('Comments').set({
+                name:'testName',
+                id:'testId',
+                message:'testMessage',
+                timeSent:new Timestamp(4, 3)
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 export default new FirestoreHelper;

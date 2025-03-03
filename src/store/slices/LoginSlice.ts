@@ -3,14 +3,14 @@ import store from "../Store";
 
 interface LoginSliceType{
     user:object
-    name:string
+    //name:string
     loggedIn:boolean
     leader:boolean
     data: object
 }
 interface StateType{
     user:object
-    name:string
+    //name:string
     loggedIn:boolean
     leader:boolean
     data: object
@@ -19,7 +19,7 @@ const loginSlice:Slice = createSlice({
     name: 'login',
     initialState: {
         user: {},
-        name: '',
+        //name: '',
         loggedIn: false,
         leader: false,
         data: {}
@@ -30,7 +30,7 @@ const loginSlice:Slice = createSlice({
         },
         createAccountSuccess: (state:StateType, action) => {
             //state.user = action.payload;
-            state.name = action.payload.name
+            //state.name = action.payload.name
             state.user = action.payload.data
             state.loggedIn = true;
             state.leader = action.payload.leader;

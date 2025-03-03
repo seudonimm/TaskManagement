@@ -15,6 +15,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import LeaderTeamView from "../screens/LeaderTeamView";
 import LeaderMemberView from "../screens/LeaderMemberView";
 import { BLACK, PURPLE } from "../res/colors";
+import CreateTasks from "../screens/CreateTasks";
 
 const AuthStack:StaticParamList = createNativeStackNavigator({
     screenOptions:{
@@ -100,7 +101,9 @@ const LeaderDrawer = createDrawerNavigator({
         }
     },
     screens: {
-        Tasks:LeaderStack
+        Teams:LeaderStack,
+        Tasks: CreateTasks
+
     }
 });
 

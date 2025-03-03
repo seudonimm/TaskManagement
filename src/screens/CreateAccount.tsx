@@ -9,6 +9,9 @@ import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import CustomPressable from "../components/CustomPressable";
 import Subtext from "../components/Subtext";
+import Header from "../components/Header";
+import LinearGradient from "react-native-linear-gradient";
+import { PURPLE, BLACK } from "../res/colors";
 
 const CreateAccount:React.FC = () => {
     const login = useSelector((state:RootState) => state.login);
@@ -55,7 +58,16 @@ const CreateAccount:React.FC = () => {
     //     },[login.loggedIn]
     // )
     return(
+        <LinearGradient style={{flex:1}}
+            colors={[PURPLE, BLACK, BLACK]}
+            locations={[0, .1, 1]}
+            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
+        >
+        
         <SafeAreaView style={styles.container}>
+            <Header
+                text={"Create\nAccount"}
+            />
             <CustomInputField
                 text="Name"
                 onChangeText={(t:string) => setName(t)}
@@ -84,13 +96,14 @@ const CreateAccount:React.FC = () => {
                 onPress={():void => onToLoginPress()}
             />
         </SafeAreaView>
+        </LinearGradient>
 
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     }
 })
 export default CreateAccount;

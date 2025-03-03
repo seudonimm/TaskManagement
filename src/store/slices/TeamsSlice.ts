@@ -1,4 +1,4 @@
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { TeamsActionType } from "../sagas/TeamsSaga";
 
 interface StateType {
@@ -9,8 +9,9 @@ interface ActionType{
     success:boolean
     data:object
     teamName?:string
+    memberName?:string
 }
-const TeamsSlice = createSlice({
+const TeamsSlice:Slice = createSlice({
     name: 'teams',
     initialState:{
         members:{},
@@ -30,6 +31,8 @@ const TeamsSlice = createSlice({
 
         },
         getMemberUsersSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            //console.log('s;lkdfjal;skdfj;alksdjf;alksdfj:' +JSON.stringify(action.payload.data))
+
             state.members = action.payload.data
         },
         getMemberUsersFailure: (state:StateType, action:PayloadAction<ActionType>) => {
@@ -42,13 +45,24 @@ const TeamsSlice = createSlice({
             console.log(action.payload);
             let obj ={
                 name:action.payload.teamName,
-                members:[]
+                members:{}
             }
             state.teams[action.payload.teamName] = obj;
         },
         createTeamFailure: (state:StateType, action:PayloadAction<ActionType>) => {
             //state.data = action.payload.data
-        }
+        },
+        addMemberToTeam: () => {
+
+        },
+        addMemberToTeamSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            state.teams[action.payload.teamName].members[action.payload.memberName] = (action.payload.data);
+            //console.log("add member: " +JSON.stringify(action.payload))
+        },
+        addMemberToTeamFailure: (state:StateType, action:PayloadAction<ActionType>) => {
+            console.log("add member: " +action.payload)
+
+        },
         
     }
 })
@@ -64,5 +78,8 @@ export const {
     getMemberUsersFailure,
     createTeam,
     createTeamSuccess,
-    createTeamFailure
+    createTeamFailure,
+    addMemberToTeam,
+    addMemberToTeamSuccess,
+    addMemberToTeamFailure
 } = TeamsSlice.actions

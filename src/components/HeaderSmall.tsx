@@ -1,16 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
     StyleSheet,
     Text
 } from 'react-native';
-import { PURPLE } from "../res/colors";
-//import { RED, WHITE } from "../res/colors";
+//import { WHITE } from "../res/colors";
 
 interface Props{
     text:String
 }
 
-const Subtext:React.FC<Props> = (props) => {
+const HeaderSmall:React.FC<Props> = (props) => {
     const {text} = props;
     return(
         <Text
@@ -23,11 +22,14 @@ const Subtext:React.FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
     textStyle: {
-        textAlign: 'center',
-        fontSize: 20,
-        color: PURPLE,
+        textAlign: 'left',
+        fontWeight: 'bold',
+        fontSize: 30,
+        color: 'white',
+        marginBottom: '10%',
+        marginLeft: '5%'
     },
-    
+
 });
 
-export default Subtext;
+export default HeaderSmall;
