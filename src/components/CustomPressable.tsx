@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     textStyle: {
-        //color: WHITE,
+        color: 'white',
         fontSize: 15,
         fontWeight: 'bold'
     }

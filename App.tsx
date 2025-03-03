@@ -1,3 +1,5 @@
+import './gesture-handler';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -21,16 +23,24 @@ import { Provider } from 'react-redux';
 import store from './src/store/Store';
 import CreateAccount from './src/screens/CreateAccount';
 import AppNavigation from './src/navigation';
-
+import LinearGradient from 'react-native-linear-gradient';
+import { BLACK, PURPLE } from './src/res/colors';
 
 
 
 function App(): React.JSX.Element {
 
   return (
-    <Provider store={store}>
-      <AppNavigation/>
-    </Provider>
+    <LinearGradient style={{flex:1}}
+        colors={[PURPLE, BLACK, BLACK]}
+        locations={[0, .1, 1]}
+        start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
+    >
+
+      <Provider store={store}>
+        <AppNavigation/>
+      </Provider>
+    </LinearGradient>
   );
 }
 

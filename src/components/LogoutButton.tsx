@@ -7,37 +7,34 @@ import {
     TouchableOpacity,
     ViewStyle,
 } from "react-native";
-import { PURPLE } from "../res/colors";
+import store from "../store/Store";
 
 interface Props{
-    text:string,
-    style?: object,
-    onPress: (event: GestureResponderEvent) => void,
-    testID?: string
 
 }
+
 const CustomButton:React.FC<Props> = props => {
 
-    const {text} = props;
-
+    const onLogoutPress = ():void => {
+        store.dispatch({type:'LOGOUT'})
+    }
     return(
-        <TouchableOpacity style={{...styles.buttonStyle, ...props.style}}
-            onPress={props.onPress}
-            testID={props.testID}
+        <TouchableOpacity style={styles.buttonStyle}
+            onPress={():void => onLogoutPress()}
         >
-        <Text style={styles.textStyle}>
-            {text}
-        </Text>
+            <Text style={styles.textStyle}>
+                {"Logout"}
+            </Text>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     buttonStyle: {
-        flex:1,
-        //height: '10%',
+        //flex:1,
+        height: '10%',
         width: '75%',
-        backgroundColor: PURPLE,
+        backgroundColor: 'black',
         borderRadius: 30,
         alignSelf: 'center',
         justifyContent: 'center',

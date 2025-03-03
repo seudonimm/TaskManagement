@@ -1,23 +1,28 @@
 import { createAction, createSlice, Slice } from "@reduxjs/toolkit";
 import store from "../Store";
 
-type LoginSliceType = Slice<{
+interface LoginSliceType{
+    user:object
+    name:string
     loggedIn:boolean
     leader:boolean
-}>
+    data: object
+}
 interface StateType{
     user:object
     name:string
     loggedIn:boolean
     leader:boolean
+    data: object
 }
-const loginSlice = createSlice({
+const loginSlice:Slice = createSlice({
     name: 'login',
     initialState: {
         user: {},
         name: '',
         loggedIn: false,
-        leader: false
+        leader: false,
+        data: {}
     },
     reducers:{
         createAccount: (state, action) => {
@@ -43,6 +48,7 @@ const loginSlice = createSlice({
             state.user = action.payload.data;
             state.loggedIn = true;
             state.leader = action.payload.authRes._data.leader
+            state.data = action.payload.authRes
         },
         loginFailed: () => {
             //state.user = null;
@@ -55,6 +61,7 @@ const loginSlice = createSlice({
             state.loggedIn = false;
             state.leader = false;
             state.user = {};
+            state.data = {}
             
         },
         logoutFailed: () => {

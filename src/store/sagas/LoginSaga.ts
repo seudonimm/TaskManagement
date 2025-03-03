@@ -45,11 +45,11 @@ function* setAuthVars(action:PayloadAction<ActionType>):Generator{
     const {name, email, leader, collectionName} = action.payload;
 
     try {
-        yield call(FirestoreHelper.accountCreationSet, collectionName, name, leader, email);
-        yield put(setAuthVariablesSuccess());
+        let res = yield call(FirestoreHelper.accountCreationSet, collectionName, name, leader, email);
+        yield put(setAuthVariablesSuccess(res));
     } catch (e) {
         console.log(e);
-        yield put(setAuthVariablesFailure());
+        yield put(setAuthVariablesFailure(e));
     }
 }
 function* createAccount(action:PayloadAction<ActionType>):Generator{

@@ -22,19 +22,14 @@ const Header:React.FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
     textStyle: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 60,
-        //color: WHITE,
-        marginBottom: '10%'
-    },
-    leftTextStyle: {
         textAlign: 'left',
         fontWeight: 'bold',
-        fontSize: 80,
+        fontSize: 60,
         color: 'white',
-        margin: '5%'
-    }
+        marginBottom: '10%',
+        marginLeft: '5%'
+    },
+
 });
 
 export default Header;

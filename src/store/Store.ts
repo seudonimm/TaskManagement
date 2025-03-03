@@ -3,6 +3,7 @@ import loginSlice from "./slices/LoginSlice";
 import createSagaMiddleware from "redux-saga";
 import logger from 'redux-logger';
 import rootSaga from "./sagas/rootSaga";
+import TeamsSlice from "./slices/TeamsSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,7 +17,8 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
     reducer: {
         //list: persistedReducer,//listSlice.reducer
-        login: loginSlice.reducer
+        login: loginSlice.reducer,
+        teams: TeamsSlice.reducer
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) => 
@@ -25,9 +27,9 @@ const store = configureStore({
                 // Ignore these action types
                 ignoredActions: ['list/retrieveData', "persist/PERSIST", "persist/REHYDRATE"],
                 // Ignore these field paths in all actions
-                ignoredActionPaths: ['meta.arg', 'payload.timestamp', 'payload.data.headers', 'payload.data.config.transformRequest.0', 'payload'],
+                ignoredActionPaths: ['login.data', 'teams.members','meta.arg', 'payload.timestamp', 'payload.data.headers', 'payload.data.config.transformRequest.0', 'payload'],
                 // Ignore these paths in the state
-                ignoredPaths: ['list.value', 'payload.data.headers', 'payload.data.config.transformRequest.0'],
+                ignoredPaths: ['login.data', 'teams.members', 'payload.data.headers', 'payload.data.config.transformRequest.0'],
               },
         }).concat(logger, sagaMiddleware)
 })
