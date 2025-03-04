@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import logger from 'redux-logger';
 import rootSaga from "./sagas/rootSaga";
 import TeamsSlice from "./slices/TeamsSlice";
+import TaskSlice from "./slices/TaskSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,7 +19,8 @@ const store = configureStore({
     reducer: {
         //list: persistedReducer,//listSlice.reducer
         login: loginSlice.reducer,
-        teams: TeamsSlice.reducer
+        teams: TeamsSlice.reducer,
+        task: TaskSlice.reducer
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) => 

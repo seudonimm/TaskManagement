@@ -103,9 +103,10 @@ class FirestoreHelper{
         }
     }
 
-    createTask = async(collectionName:string, docName:string, assignedTo:string, task:string, dateAssigned:Timestamp, dateDue:Timestamp) => {
+    createTask = async(collectionName:string, docName:string, teamName:string, assignedTo:string, task:string, dateAssigned:Timestamp, dateDue:Timestamp) => {
         try {
             let res = await firestore().collection(collectionName).doc(docName).set({
+                teamName:teamName,
                 assignedTo:assignedTo,
                 task:task,
                 dateAssigned:dateAssigned,

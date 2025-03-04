@@ -23,7 +23,7 @@ const Subtext:React.FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
     textStyle: {
-        textAlign: 'center',
+        textAlign: 'left',
         fontSize: 20,
         color: PURPLE,
     },

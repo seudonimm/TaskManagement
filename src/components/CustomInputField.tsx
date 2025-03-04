@@ -13,14 +13,14 @@ interface Props{
     inputErrorMessage?:string,
     onChangeText:(text:string)=>void,
     ref?:React.LegacyRef<TextInput>,
-    testID?:string
+    style?:object
 }
 const CustomInputField:React.FC<Props> = (props) => {
     const {text, inputErrorMessage} = props;
 
     return(
         <View style={styles.container}>
-            <View style={styles.inputContainer}>
+            <View style={{...styles.inputContainer, ...props.style}}>
                 <TextInput 
                     style={styles.inputStyle}
                     placeholder={text}
