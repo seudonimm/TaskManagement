@@ -83,7 +83,8 @@ class FirestoreHelper{
     addMemberToTeam = async(collectionName:string, docName:string, teamName:string, memberName:string, memberId:string) => {
         try {
             await firestore().collection(collectionName).doc(docName).update({
-                [`teams.${teamName}.members.${memberName}`]: memberId
+                //[`teams.${teamName}.members.${memberName}`]: memberId
+                [`teams.${teamName}.members`]: firestore.FieldValue.arrayUnion({name:memberName, id:memberId})
             });
             await firestore().collection(collectionName).doc(memberId).update({
                 teams: firestore.FieldValue.arrayUnion(teamName)
@@ -120,6 +121,16 @@ class FirestoreHelper{
             });
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    getTasks = async(collectionName:string) => {
+        try {
+            let res = await firestore().collection(collectionName).orderBy('dateDue', 'desc').get();
+
+            return res;
+        } catch (e) {
+            console.log(e)
         }
     }
 }

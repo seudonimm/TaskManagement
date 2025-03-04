@@ -20,7 +20,7 @@ const store = configureStore({
         //list: persistedReducer,//listSlice.reducer
         login: loginSlice.reducer,
         teams: TeamsSlice.reducer,
-        task: TaskSlice.reducer
+        tasks: TaskSlice.reducer
     },
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) => 

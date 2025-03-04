@@ -11,6 +11,7 @@ import CustomInputField from "../components/CustomInputField";
 import { collection } from "@react-native-firebase/firestore";
 import { BLACK, PURPLE } from "../res/colors";
 import LinearGradient from "react-native-linear-gradient";
+import Header from "../components/Header";
 
 const LeaderTeamView:React.FC = () => {
 
@@ -75,14 +76,18 @@ const LeaderTeamView:React.FC = () => {
             start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
         >
         <SafeAreaView style={styles.container}>
-
-            <CustomButton
+            <Header
+                text={"Teams"}
+            />
+            <View style={styles.flatlistViewContainer}>
+                <FlatList
+                    data={Object.keys(teams.teams)}
+                    renderItem={toRenderFlatListItem}
+                />
+            </View>
+            <CustomButton style={{flex: 1}}
                 text="Create Team"
                 onPress={():void => setCreateTeamModalVisible(!createTeamModalVisible)}
-            />
-            <FlatList
-                data={Object.keys(teams.teams)}
-                renderItem={toRenderFlatListItem}
             />
             <View  style={styles.centeredView}>
                 <Modal
@@ -98,14 +103,19 @@ const LeaderTeamView:React.FC = () => {
                             text="Team Name"
                             onChangeText={(t:string):void => setTeamName(t)}
                         />
-                        <CustomButton
-                            text="Create Team"
-                            onPress={() => onCreateTeamPress(teamName)}
-                        />
+                        <View style={styles.modalButtonsStyle}>
+                            <CustomButton 
+                                text="Create Team"
+                                onPress={():Promise<void> => onCreateTeamPress(teamName)}
+                            />
+                            <CustomButton 
+                                text="Cancel"
+                                onPress={():void => setCreateTeamModalVisible(false)}
+                            />
+                        </View>
                     </View>
                 </Modal>
             </View>
-            <LogoutButton/>
         </SafeAreaView>
         </LinearGradient>
     );
@@ -117,7 +127,7 @@ const styles = StyleSheet.create({
         //backgroundColor: BLACK
     },
     centeredView: {
-        flex: 1,
+        //flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -126,14 +136,14 @@ const styles = StyleSheet.create({
         height: '20%',
         borderWidth: 1,
         borderRadius: 20,
-        borderColor: 'orange',
+        borderColor: PURPLE,
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
         alignContent: 'center',
         verticalAlign: 'middle',
-        backgroundColor: 'orange',
-        margin: 10,
+        backgroundColor: BLACK,
+        marginTop: '20%',
         padding: '5%',
         shadowColor: 'black',
         shadowRadius:20,
@@ -142,7 +152,24 @@ const styles = StyleSheet.create({
         shadowOffset: {
             width: 25,
             height: 25
-        }
+        },
+    },
+    flatlistViewContainer: {
+        flex: 10,
+        height: '80%',
+        width: '90%',
+        borderWidth: 1,
+        borderColor: PURPLE,
+        alignSelf: 'center',
+        borderRadius: 10,
+        margin: '1%',
+        paddingVertical: '5%'
+    },
+    modalButtonsStyle: {
+        flex:1,
+        flexDirection: 'row',
+        
     }
+
 })
 export default LeaderTeamView;

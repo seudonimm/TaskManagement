@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         height: '40%',
         width: '80%',
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: PURPLE,
         alignSelf: 'center',
         borderRadius: 10,
         margin: '1%'

@@ -4,23 +4,15 @@ import LinearGradient from "react-native-linear-gradient";
 import { PURPLE, BLACK } from "../res/colors";
 import LogoutButton from "../components/LogoutButton";
 import store from "../store/Store";
-import CustomButton from "../components/CustomButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/Store";
 
-const ToDo:React.FC = () => {
-    const task = useSelector((state:RootState) => state.tasks);
+const Settings:React.FC = () => {
 
-    const onGetTasksPress = () => {
-        store.dispatch({type:'GET_TASKS', payload:{collectionName:'Tasks'}})
-
-    }
     useEffect(
         () => {
-            onGetTasksPress();
+            store.dispatch({type:'LOGOUT'})
+
         },[]
     )
-
     return(
         <LinearGradient style={{flex:1}}
             colors={[PURPLE, BLACK, BLACK]}
@@ -29,14 +21,10 @@ const ToDo:React.FC = () => {
         >
 
         <SafeAreaView>
-            <CustomButton
-                text="Get Task"
-                onPress={() => onGetTasksPress}
-            />
             <LogoutButton/>
         </SafeAreaView>
         </LinearGradient>
     );
 };
 
-export default ToDo;
+export default Settings;

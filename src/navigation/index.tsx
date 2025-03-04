@@ -16,6 +16,7 @@ import LeaderTeamView from "../screens/LeaderTeamView";
 import LeaderMemberView from "../screens/LeaderMemberView";
 import { BLACK, PURPLE } from "../res/colors";
 import CreateTasks from "../screens/CreateTasks";
+import Settings from "../screens/Settings";
 
 const AuthStack:StaticParamList = createNativeStackNavigator({
     screenOptions:{
@@ -102,7 +103,8 @@ const LeaderDrawer = createDrawerNavigator({
     },
     screens: {
         Teams:LeaderStack,
-        Tasks: CreateTasks
+        Tasks: CreateTasks,
+        Settings:Settings
 
     }
 });
