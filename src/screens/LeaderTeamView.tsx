@@ -9,7 +9,7 @@ import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
 import CustomInputField from "../components/CustomInputField";
 import { collection } from "@react-native-firebase/firestore";
-import { BLACK, PURPLE } from "../res/colors";
+import { BLACK, BLUE, PURPLE } from "../res/colors";
 import LinearGradient from "react-native-linear-gradient";
 import Header from "../components/Header";
 
@@ -70,15 +70,12 @@ const LeaderTeamView:React.FC = () => {
         },[]
     )
     return(
-        <LinearGradient style={{flex:1}}
-            colors={[PURPLE, BLACK, BLACK]}
-            locations={[0, .1, 1]}
-            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-        >
         <SafeAreaView style={styles.container}>
+            <View style={styles.headerViewStyle}>
             <Header
                 text={"Teams"}
             />
+            </View>
             <View style={styles.flatlistViewContainer}>
                 <FlatList
                     data={Object.keys(teams.teams)}
@@ -117,7 +114,6 @@ const LeaderTeamView:React.FC = () => {
                 </Modal>
             </View>
         </SafeAreaView>
-        </LinearGradient>
     );
 };
 
@@ -155,11 +151,11 @@ const styles = StyleSheet.create({
         },
     },
     flatlistViewContainer: {
-        flex: 10,
+        flex: 8,
         height: '80%',
         width: '90%',
-        borderWidth: 1,
-        borderColor: PURPLE,
+        // borderWidth: 1,
+        // borderColor: PURPLE,
         alignSelf: 'center',
         borderRadius: 10,
         margin: '1%',
@@ -169,6 +165,12 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         
+    },
+    headerViewStyle: {
+        flex: 2,
+        backgroundColor: BLUE,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
     }
 
 })

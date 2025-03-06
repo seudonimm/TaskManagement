@@ -61,7 +61,7 @@ function* addMemberToTeam (action:PayloadAction<TeamsActionType>):Generator {
     try {
         let res = yield call(FirestoreHelper.addMemberToTeam, collectionName, docName, teamName, memberName, memberId);
 
-        yield put(addMemberToTeamSuccess({success: true, data:res, teamName:teamName, memberName:memberName}));
+        yield put(addMemberToTeamSuccess({success: true, data:{name:memberName, id:memberId}, teamName:teamName, memberName:memberName}));
 
     } catch (e) {
         yield put(addMemberToTeamFailure({success: false, data:{e}}));

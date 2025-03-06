@@ -31,16 +31,9 @@ import { BLACK, PURPLE } from './src/res/colors';
 function App(): React.JSX.Element {
 
   return (
-    <LinearGradient style={{flex:1}}
-        colors={[PURPLE, BLACK, BLACK]}
-        locations={[0, .1, 1]}
-        start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-    >
-
       <Provider store={store}>
         <AppNavigation/>
       </Provider>
-    </LinearGradient>
   );
 }
 

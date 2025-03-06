@@ -9,8 +9,9 @@ import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
 import { StaticScreenProps } from "@react-navigation/native";
 import LinearGradient from "react-native-linear-gradient";
-import { PURPLE, BLACK } from "../res/colors";
+import { PURPLE, BLACK, LIGHT_BLUE, BLUE } from "../res/colors";
 import Subtext from "../components/Subtext";
+import { blue } from "react-native-reanimated/lib/typescript/Colors";
 
 type Props = StaticScreenProps<{
     teamName:string
@@ -49,10 +50,10 @@ const LeaderMemberView:React.FC<Props> = (props) => {
 
 
     const toRenderCurrentMembersFlatListItem = ({item, index}:{item:string, index:number}):React.JSX.Element => {
-        console.log("lads;khj: " +JSON.stringify(teams.teams[teamName].members[item]));
+        console.log("lads;khj: " +JSON.stringify(teams.teams[teamName].members[index]));
         return(
             <CustomFlatListItem
-                text={Object.keys(teams.teams[teamName].members)[index]}
+                text={teams.teams[teamName].members[index].name}
                 onViewPress={() => onViewButtonPress}
                 onDeletePress={() => onDeleteButtonPress}
             />
@@ -79,11 +80,7 @@ const LeaderMemberView:React.FC<Props> = (props) => {
         },[]
     )
     return(
-        <LinearGradient style={{flex:1}}
-                    colors={[PURPLE, BLACK, BLACK]}
-                    locations={[0, .1, 1]}
-                    start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-        >
+
         <SafeAreaView style={styles.container}>
             <Subtext
                 text={"Add Members to Team"}
@@ -93,7 +90,7 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                     text={"Current Members"}
                 />
                 <FlatList
-                    data={Object.keys(teams.teams[teamName].members)}
+                    data={teams.teams[teamName].members}
                     renderItem={toRenderCurrentMembersFlatListItem}
                 />
             </View>
@@ -111,7 +108,6 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                 onPress={():void => onCancelButtonPress()}
             />
         </SafeAreaView>
-        </LinearGradient>
     );
 };
 
@@ -128,10 +124,11 @@ const styles = StyleSheet.create({
         height: '40%',
         width: '80%',
         borderWidth: 1,
-        borderColor: PURPLE,
+        borderColor: BLUE,
         alignSelf: 'center',
         borderRadius: 10,
-        margin: '1%'
+        margin: '1%',
+        backgroundColor: LIGHT_BLUE
     }
 })
 export default LeaderMemberView;

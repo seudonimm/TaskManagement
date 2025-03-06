@@ -6,7 +6,11 @@ interface StateType {
 }
 interface ActionType{
     success:boolean
-    data:object
+    data:DataType
+
+}
+interface DataType{
+    _docs:Array<object>
 
 }
 
@@ -37,6 +41,28 @@ const TaskSlice:Slice = createSlice({
         getTaskFailure: (state:StateType, action:PayloadAction<ActionType>) => {
             
         },
+        deleteTask: () => {
+
+        },
+        deleteTaskSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+
+        },
+        deleteTaskFailure: (state:StateType, action:PayloadAction<ActionType>) => {
+
+        },
+        finishTask: () => {
+
+        },
+        finishTaskSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            let arr = state.data;
+            arr._docs.splice(action.payload.index, 1);
+            state.data = arr;
+            //state.data._docs = state.data._docs.splice(action.payload.index, 1)
+        },
+        finishTaskFailure: (state:StateType, action:PayloadAction<ActionType>) => {
+
+        },
+
 
     }
 });
@@ -49,5 +75,11 @@ export const {
     createTaskFailure,
     getTask,
     getTaskSuccess,
-    getTaskFailure
+    getTaskFailure,
+    deleteTask,
+    deleteTaskSuccess,
+    deleteTaskFailure,
+    finishTask,
+    finishTaskSuccess,
+    finishTaskFailure
 } = TaskSlice.actions

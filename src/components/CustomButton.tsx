@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     ViewStyle,
 } from "react-native";
-import { PURPLE } from "../res/colors";
+import { BLUE, PURPLE } from "../res/colors";
 
 interface Props{
     text:string,
@@ -37,11 +37,12 @@ const styles = StyleSheet.create({
         flex:1,
         //height: '10%',
         width: '75%',
-        backgroundColor: PURPLE,
+        backgroundColor: BLUE,
         borderRadius: 30,
         alignSelf: 'center',
         justifyContent: 'center',
-        margin: '5%'
+        margin: '1%',
+        padding: '3%'
     },
     textStyle: {
         zIndex:1,

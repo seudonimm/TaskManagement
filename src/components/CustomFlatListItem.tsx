@@ -36,10 +36,10 @@ const CustomFlatListItem:React.FC<Props> = (props) => {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        height: '20%',
+        height: '30%',
         width: '90%',
-        borderWidth: .5,
-        borderColor: 'white',
+        //borderWidth: .5,
+        //borderColor: 'white',
         flexDirection: 'row',
         alignSelf: "center",
         margin: '1%',
@@ -47,6 +47,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         backgroundColor: BLACK,
+        shadowColor: 'black',
+        shadowOpacity: .2,
+        shadowOffset: {
+            height: 4,
+            width: -2
+        },
+        elevation: 10,
+        shadowRadius: 3
 
     },
     buttonsContainer: {
@@ -55,9 +63,9 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         flex: 1,
-        fontSize: 30,
+        fontSize: 25,
         margin:'2%',
-        color: 'white'
+        color: 'black'
     },
 })
 

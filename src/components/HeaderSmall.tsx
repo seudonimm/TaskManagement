@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: 'white',
         marginBottom: '10%',
-        marginLeft: '5%'
+        marginLeft: '5%',
+        zIndex:2
     },
 
 });

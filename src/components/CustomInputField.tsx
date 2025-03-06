@@ -6,7 +6,7 @@ import {
     View,
     Text
 } from "react-native"
-import { BLACK } from "../res/colors";
+import { BLACK, LIGHT_BLUE } from "../res/colors";
 
 interface Props{
     text:string,
@@ -14,19 +14,20 @@ interface Props{
     onChangeText:(text:string)=>void,
     ref?:React.LegacyRef<TextInput>,
     style?:object
+    textWhite?:boolean
 }
 const CustomInputField:React.FC<Props> = (props) => {
-    const {text, inputErrorMessage} = props;
+    const {text, inputErrorMessage, textWhite} = props;
 
     return(
         <View style={styles.container}>
             <View style={{...styles.inputContainer, ...props.style}}>
                 <TextInput 
-                    style={styles.inputStyle}
+                    style={{...styles.inputStyle, color:(textWhite?'white':'black')}}
                     placeholder={text}
-                    placeholderTextColor={"white"}
+                    placeholderTextColor={((textWhite)?'white':'black')}
                     onChangeText={props.onChangeText}
-                    cursorColor={'white'}
+                    //cursorColor={'white'}
                 />
             </View>
             <Text style={styles.textStyle}>
@@ -54,17 +55,18 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         //margin: '2%',
         paddingLeft: '10%',
-        color: 'white',
+        color: LIGHT_BLUE,
         alignContent:'center'
     },
     inputStyle: {
         //flex: 1,
         height: 50,
-        color: 'white'
+        color: 'black'
     },
     textStyle: {
-        color: 'red',
-        marginLeft: '5%'
+        //color: 'red',
+        marginLeft: '5%',
+        //color: ((textWhite)?'white':'black')
     }
 });
 

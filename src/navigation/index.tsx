@@ -80,7 +80,9 @@ const MemberDrawer = createDrawerNavigator({
     },
 
     screens: {
-        Tasks:TaskStack
+        Tasks:TaskStack,
+        Settings:Settings
+
     }
 });
 

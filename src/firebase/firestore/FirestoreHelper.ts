@@ -107,6 +107,7 @@ class FirestoreHelper{
     createTask = async(collectionName:string, docName:string, teamName:string, assignedTo:string, task:string, dateAssigned:Timestamp, dateDue:Timestamp) => {
         try {
             let res = await firestore().collection(collectionName).doc(docName).set({
+                taskName:docName,
                 teamName:teamName,
                 assignedTo:assignedTo,
                 task:task,
@@ -123,14 +124,35 @@ class FirestoreHelper{
             console.log(e);
         }
     }
-
-    getTasks = async(collectionName:string) => {
+    copyDocument = async(oldCollectionName:string, newCollectionName:string, docName:string) => {
         try {
-            let res = await firestore().collection(collectionName).orderBy('dateDue', 'desc').get();
+            let res = (await firestore().collection(oldCollectionName).doc(docName).get()).data()
+            
+            await firestore().collection(newCollectionName).doc(docName).set({res});
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    getTasks = async(collectionName:string, memberId:string) => {
+        try {
+            console.log("helper: " + memberId);
+            //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
+            let res = await firestore().collection(collectionName).where(Filter('assignedTo', '==', `${memberId}`)).orderBy('dateDue', 'asc').get();
 
             return res;
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    deleteDocument = async(collectionName:string, docName:string) => {
+        try {
+            let res = await firestore().collection(collectionName).doc(docName).delete();
+
+            return res;
+        } catch (e) {
+            console.log(e);
         }
     }
 }

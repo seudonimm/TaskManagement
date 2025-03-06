@@ -58,11 +58,7 @@ const CreateAccount:React.FC = () => {
     //     },[login.loggedIn]
     // )
     return(
-        <LinearGradient style={{flex:1}}
-            colors={[PURPLE, BLACK, BLACK]}
-            locations={[0, .1, 1]}
-            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-        >
+
         
         <SafeAreaView style={styles.container}>
             <Header
@@ -96,7 +92,6 @@ const CreateAccount:React.FC = () => {
                 onPress={():void => onToLoginPress()}
             />
         </SafeAreaView>
-        </LinearGradient>
 
     );
 };

@@ -56,11 +56,12 @@ const TeamsSlice:Slice = createSlice({
 
         },
         addMemberToTeamSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
-            state.teams[action.payload.teamName].members[action.payload.memberName] = (action.payload.data);
+            console.log("action loged:" + action.payload.data);
+            state.teams[action.payload.teamName].members.push(action.payload.data);
             //console.log("add member: " +JSON.stringify(action.payload))
         },
         addMemberToTeamFailure: (state:StateType, action:PayloadAction<ActionType>) => {
-            console.log("add member: " +action.payload)
+            console.log("add member: " + action.payload)
 
         },
         

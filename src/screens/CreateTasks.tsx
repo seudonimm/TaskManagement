@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, SafeAreaView, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import LogoutButton from "../components/LogoutButton";
-import { BLACK, PURPLE } from "../res/colors";
+import { BLACK, BLUE, LIGHT_BLUE, PURPLE } from "../res/colors";
 import Header from "../components/Header";
 import HeaderSmall from "../components/HeaderSmall";
 import Subtext from "../components/Subtext";
@@ -74,112 +74,107 @@ const CreateTasks = () => {
     )
 
     return(
-        <LinearGradient style={{flex:1}}
-            colors={[PURPLE, BLACK, BLACK]}
-            locations={[0, .1, 1]}
-            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-        >
+        // <SafeAreaView style={{flex: 1, backgroundColor}}>
             <SafeAreaView style={styles.container}>
-            <HeaderSmall
-                text={"Create Task"}
-            />
-                <LinearGradient style={{flex:1, borderRadius: 30}}
-                    colors={[PURPLE, BLACK, BLACK]}
-                    locations={[0, .1, 1]}
-                    start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-                >
-
-                <View style={styles.subContainer}>
-                    <Dropdown style={styles.dropdown}
-                        data={teamArray}
-                        search
-                        labelField='name'
-                        valueField='name'
-                        onChange={(item) => {setSelectedTeam(item)}}
+            <View style={styles.headerViewStyle}>
+                <Header
+                    text={"Create Task"}
+                />
+            </View>
+            <View style={styles.subContainer}>
+                <Dropdown style={styles.dropdown}
+                    data={teamArray}
+                    search
+                    labelField='name'
+                    valueField='name'
+                    onChange={(item) => {setSelectedTeam(item)}}
+                />
+                {(selectedTeam)?<Dropdown style={styles.dropdown}
+                    data={selectedTeam.members}
+                    search
+                    labelField='name'
+                    valueField='name'
+                    onChange={(item) => {setSelectedMember(item.id)}}
+                />:<ActivityIndicator/>}
+                <Subtext
+                    text={"Task Name"}
+                />
+                <CustomInputField style={styles.inputFieldStyle}
+                    text="Task Name..."
+                    onChangeText={(t:string):void => setTaskName(t)}
+                    textWhite={true}
+                />
+                <Subtext
+                    text={"Description"}
+                />
+                <CustomInputField style={{height: '70%', ...styles.inputFieldStyle}}
+                    text="Task Description..."
+                    onChangeText={(t:string):void => setTaskDescription(t)}
+                    textWhite={true}
+                />
+                <Subtext
+                    text={"Due Date"}
+                />
+                <View style={styles.datePickerButtonContainer}>
+                    <CustomButton style={styles.dateButtonStyle}
+                        text={date.toDateString()}
+                        onPress={() => setOpenDate(true)}
                     />
-                    {(selectedTeam)?<Dropdown style={styles.dropdown}
-                        data={selectedTeam.members}
-                        search
-                        labelField='name'
-                        valueField='name'
-                        onChange={(item) => {setSelectedMember(item.id)}}
-                    />:<ActivityIndicator/>}
-                    <Subtext
-                        text={"Task Name"}
+                    <CustomButton style={styles.dateButtonStyle}
+                        text={date.toTimeString()}
+                        onPress={() => setOpenTime(true)}
                     />
-                    <CustomInputField
-                        text="Task Name..."
-                        onChangeText={(t:string):void => setTaskName(t)}
-                    />
-                    <Subtext
-                        text={"Description"}
-                    />
-                    <CustomInputField style={{height: '70%'}}
-                        text="Task Description..."
-                        onChangeText={(t:string):void => setTaskDescription(t)}
-                    />
-                    <Subtext
-                        text={"Due Date"}
-                    />
-                    <View style={styles.datePickerButtonContainer}>
-                        <CustomButton style={styles.dateButtonStyle}
-                            text={date.toDateString()}
-                            onPress={() => setOpenDate(true)}
-                        />
-                        <CustomButton style={styles.dateButtonStyle}
-                            text={date.toTimeString()}
-                            onPress={() => setOpenTime(true)}
-                        />
-                    </View>
-                    <DatePicker 
-                        modal
-                        mode={'date'}
-                        open={openDate}
-                        date={date}
-                        onConfirm={(date) => {
-                            setDate(date)
-                            setOpenDate(false)
-                        }}
-                        onCancel={() => setOpenDate(false)}
-                    />
-                     <DatePicker
-                        modal
-                        mode={'time'}
-                        open={openTime}
-                        date={date}
-                        onConfirm={(date) => {
-                            setDate(date)
-                            setOpenTime(false)
-                        }}
-                        onCancel={() => setOpenTime(false)}
-                    />
-
                 </View>
-                </LinearGradient>
-            </SafeAreaView>
-            <View style={styles.createTaskButtonView}>
+                <DatePicker 
+                    modal
+                    mode={'date'}
+                    open={openDate}
+                    date={date}
+                    onConfirm={(date) => {
+                        setDate(date)
+                        setOpenDate(false)
+                    }}
+                    onCancel={() => setOpenDate(false)}
+                />
+                    <DatePicker
+                    modal
+                    mode={'time'}
+                    open={openTime}
+                    date={date}
+                    onConfirm={(date) => {
+                        setDate(date)
+                        setOpenTime(false)
+                    }}
+                    onCancel={() => setOpenTime(false)}
+                />
+                <CustomButton
+                    text="Create Task"
+                    onPress={() => onCreateTaskPress('Tasks', taskName, selectedTeam.name, selectedMember, taskDescription, firebase.firestore.Timestamp.fromDate(new Date), firebase.firestore.Timestamp.fromDate(date))}
+                />
+
+            </View>
+        {/* </SafeAreaView> */}
+            {/* <View style={styles.createTaskButtonView}>
                     <CustomButton
                         text="Create Task"
                         onPress={() => onCreateTaskPress('Tasks', taskName, selectedTeam.name, selectedMember, taskDescription, firebase.firestore.Timestamp.fromDate(new Date), firebase.firestore.Timestamp.fromDate(date))}
                     />
-                    </View>
-        </LinearGradient>
+                    </View> */}
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 7
+        flex: 1,
+        backgroundColor: BLUE
     },
     subContainer: {
-        flex: 1,
-        borderWidth: .5,
+        flex: 8,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        borderTopColor: 'white',
         padding: '5%',
-        borderEndColor: 'white'
-        
+        backgroundColor:LIGHT_BLUE
     },
     datePickerStyle: {
         color: 'white'
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
     dateButtonStyle: {
         borderWidth: .5,
         borderColor: 'white',
-        backgroundColor: BLACK,
+        backgroundColor: BLUE,
         padding: '5%',
         borderEndColor: 'white'
     },
@@ -214,18 +209,29 @@ const styles = StyleSheet.create({
     },
     placeholderStyle: {
         fontSize: 16,
-      },
-      selectedTextStyle: {
+    },
+    selectedTextStyle: {
         fontSize: 16,
-      },
-      iconStyle: {
+    },
+    iconStyle: {
         width: 20,
         height: 20,
-      },
-      inputSearchStyle: {
+    },
+    inputSearchStyle: {
         height: 40,
         fontSize: 16,
-      },
+    },
+    headerViewStyle: {
+        flex: 2,
+        backgroundColor: BLUE,
+        // borderBottomLeftRadius: 10,
+        // borderBottomRightRadius: 10
+    },
+    inputFieldStyle: {
+        backgroundColor: BLUE
+    }
+      
+      
 })
 
 export default CreateTasks;

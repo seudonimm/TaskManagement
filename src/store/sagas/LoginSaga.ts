@@ -35,7 +35,7 @@ function* logInToAccount(action:PayloadAction<ActionType>):Generator{
         if(e.code === 'auth/invalid-email'){
             console.log('That email address is invalid!');
         }
-        Alert.alert(e);
+        //Alert.alert(e);
         yield put(loginFailed(e));
     }
 

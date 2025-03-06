@@ -7,7 +7,7 @@ import store, {RootState} from "../store/Store";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import CustomPressable from "../components/CustomPressable";
 import Header from "../components/Header";
-import { BLACK, PURPLE } from "../res/colors";
+import { BLACK, BLUE, PURPLE } from "../res/colors";
 import LinearGradient from "react-native-linear-gradient";
 
 
@@ -28,11 +28,7 @@ const Login:React.FC = () => {
     }
     
     return(
-        <LinearGradient style={{flex:1}}
-            colors={[PURPLE, BLACK, BLACK]}
-            locations={[0, .1, 1]}
-            start={{x: 0.0, y: 0}} end={{x: 0.5, y: 1.0}}
-        >
+
             <SafeAreaView style={styles.container}>
                 <Image style={styles.imageStyle} 
                     source={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/front.png')}
@@ -47,6 +43,7 @@ const Login:React.FC = () => {
                 <CustomInputField
                     text="Password"
                     onChangeText={(t:string):void => setPassword(t)}
+                    textWhite={false}
                 />
                 <CustomButton
                     text="Login"
@@ -57,14 +54,13 @@ const Login:React.FC = () => {
                     onPress={():void => onCreateAccountPress()}
                 />
             </SafeAreaView>
-        </LinearGradient>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //backgroundColor: BLACK
+        backgroundColor: BLUE
     },
     imageStyle: {
         height: '50%',

@@ -23,7 +23,7 @@ const Header:React.FC<Props> = (props) => {
 const styles = StyleSheet.create({
     textStyle: {
         textAlign: 'left',
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         fontSize: 60,
         color: 'white',
         marginBottom: '10%',
