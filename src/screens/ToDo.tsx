@@ -141,7 +141,7 @@ const ToDo:React.FC = () => {
                     transparent={true}
                 >
                     <View style={styles.modalContainer}>
-                        <HeaderSmall
+                        <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
                             text={'Task'}
                         />
                         <View style={styles.modelTaskItemContainer}>
@@ -149,7 +149,7 @@ const ToDo:React.FC = () => {
                                 text={!loading?tasks.data[selectedTask]._data.taskName:'loading'}
                             />
                         </View>
-                        <HeaderSmall
+                        <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
                             text={'Description'}
                         />
                         <View style={styles.modelTaskItemContainer}>
@@ -157,15 +157,15 @@ const ToDo:React.FC = () => {
                                 text={!loading?tasks.data[selectedTask]._data.task:'loading'}
                             />
                         </View>
-                        <HeaderSmall
+                        <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
                             text={'Date Assigned'}
                         />
                         <View style={styles.modelTaskItemContainer}>
-                            <Subtext
+                            <Subtext style={{margin: '1%'}}
                                 text={!loading?tasks.data[selectedTask]._data.dateAssigned.toDate().toString():'loading'}
                             />
                         </View>
-                        <HeaderSmall
+                        <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
                             text={'Date Due'}
                         />
                         <View style={styles.modelTaskItemContainer}>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '80%',
-        height: '80%',
+        height: '60%',
         borderWidth: 1,
         borderRadius: 20,
         borderColor: PURPLE,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         verticalAlign: 'middle',
         backgroundColor: BLUE,
-        marginTop: '20%',
+        marginTop: '30%',
         padding: '5%',
         shadowColor: 'black',
         shadowRadius:20,
@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
             width: 25,
             height: 25
         },
+        margin: '1%'
 
     }
 

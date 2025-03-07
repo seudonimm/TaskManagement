@@ -7,13 +7,14 @@ import {
 
 interface Props{
     text:String
+    style?:object
 }
 
 const HeaderSmall:React.FC<Props> = (props) => {
     const {text} = props;
     return(
         <Text
-            style={styles.textStyle}
+            style={{...styles.textStyle, ...props.style}}
         >
             {text}
         </Text>

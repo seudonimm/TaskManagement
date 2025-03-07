@@ -9,6 +9,7 @@ import { BLUE, PURPLE } from "../res/colors";
 interface Props{
     text:String
     textWhite?:boolean
+    style?:object
 
 }
 
@@ -16,7 +17,7 @@ const Subtext:React.FC<Props> = (props) => {
     const {text, textWhite} = props;
     return(
         <Text
-            style={{...styles.textStyle, color:(textWhite?'white':'black')}}
+            style={{...styles.textStyle, color:(textWhite?'white':'black'), ...props.style}}
         >
             {text}
         </Text>
