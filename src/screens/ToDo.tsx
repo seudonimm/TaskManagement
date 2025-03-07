@@ -14,6 +14,8 @@ import Subtext from "../components/Subtext";
 import HeaderSmall from "../components/HeaderSmall";
 import NotificationHelper from "../notifications/NotificationHelper";
 import notifee from '@notifee/react-native';
+import WatermelonHelper from "../model/watermelonHelper/WatermelonHelper";
+import * as util from 'util'
 
 const ToDo:React.FC = () => {
     const tasks:any = useSelector((state:RootState) => state.tasks);
@@ -24,6 +26,8 @@ const ToDo:React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
     const [taskArray, setTaskArray] = useState<Array<object>>([]);
+
+    const [dBData, setDBData] = useState<any>(); //comeback to this
 
     const onTaskItemPress = (index:number):void => {
         setTaskModalVisible(true);
@@ -37,6 +41,7 @@ const ToDo:React.FC = () => {
     }
     const toRenderFlatListItem = ({item, index}:{item:object, index:number}):React.JSX.Element => {
         //createNotification(item._data.dateDue.toDate(), item._data.taskName, item.data.task);
+        setWatermelonHelperData(item._data);
         return(
             <TaskListItem
                 title={item._data.taskName}
@@ -85,12 +90,21 @@ const ToDo:React.FC = () => {
         //setTaskArray(tasks.data._docs);
 
     }
+    const getWatermelonHelperData = async() => {
+        setDBData(await WatermelonHelper.getTasksFromDB());
+        console.log (await WatermelonHelper.getTasksFromDB());
+        return await WatermelonHelper.getTasksFromDB();
+    }
+    const setWatermelonHelperData = async(item:any) => {
+        await WatermelonHelper.saveTaskToDB(item);
+
+    }
 
     useEffect(
         () => {console.log(tasks);
                 onGetTasksPress();
                 createNotificationChannel('tasks', 'Tasks Due');
-
+                console.log(util.inspect(getWatermelonHelperData()));
                 //onDisplayNotification();
         },[]
     )
@@ -101,7 +115,6 @@ const ToDo:React.FC = () => {
                 setLoading(false);
                 console.log(tasks.data);
                 console.log(taskArray);
-
             }
             if(!loading){
                 //setTaskArray(tasks.data._docs);
@@ -126,7 +139,18 @@ const ToDo:React.FC = () => {
             />
             <FlatList
                 data={tasks.data}
+                // data={dBData}
                 renderItem={toRenderFlatListItem}
+                // renderItem={({item}) => {
+                //     console.log("item: " + item);
+                //     return(
+                //         <View>
+                //             <Text>
+                //             {item.task}
+                //             </Text>
+                //         </View>
+                //     )
+                // }}
                 // keyExtractor={item=>item._data.taskName}
                 // extraData={tasks.data._docs}
             />

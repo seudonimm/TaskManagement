@@ -1,7 +1,7 @@
 import { Model } from "@nozbe/watermelondb";
 import {date, field, text} from "@nozbe/watermelondb/decorators";
 
-export default class Task extends Model{
+export default class FinishedTask extends Model{
     static table = 'tasks';
 
     @text('task_name_id') taskNameId
