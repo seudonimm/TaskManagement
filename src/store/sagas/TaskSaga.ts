@@ -18,6 +18,7 @@ export interface ActionType{
     oldCollectionName:string
     newCollectionName:string
     index:number
+    finishedData:object
 }
 
 
@@ -43,8 +44,9 @@ function* getTasks(action:PayloadAction<ActionType>):Generator{
         const {collectionName, memberId} = action.payload
         console.log("saga: " + memberId);
         let res = yield call(FirestoreHelper.getTasks, collectionName, memberId);
+        let finishedRes = yield call(FirestoreHelper.getFinishedTasks, collectionName);
 
-        yield put(getTaskSuccess({success: true, data: res}));
+        yield put(getTaskSuccess({success: true, data: res, finishedData: finishedRes}));
     }catch(e){
         yield put(getTaskFailure({success: false, data: e}));
 

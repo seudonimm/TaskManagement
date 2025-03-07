@@ -30,6 +30,7 @@ import { BLACK, PURPLE } from './src/res/colors';
 
 function App(): React.JSX.Element {
 
+
   return (
       <Provider store={store}>
         <AppNavigation/>

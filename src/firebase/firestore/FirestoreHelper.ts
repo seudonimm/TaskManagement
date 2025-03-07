@@ -128,7 +128,7 @@ class FirestoreHelper{
         try {
             let res = (await firestore().collection(oldCollectionName).doc(docName).get()).data()
             
-            await firestore().collection(newCollectionName).doc(docName).set({res});
+            await firestore().collection(newCollectionName).doc(docName).set({...res});
         } catch (e) {
             console.log(e);
         }
@@ -140,7 +140,19 @@ class FirestoreHelper{
             //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
             let res = await firestore().collection(collectionName).where(Filter('assignedTo', '==', `${memberId}`)).orderBy('dateDue', 'asc').get();
 
-            return res;
+            return res.docs;
+        } catch (e) {
+            console.log(e)
+        }
+    }    
+    
+    getFinishedTasks = async(collectionName:string) => {
+        try {
+            //console.log("helper: " + memberId);
+            //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
+            let res = await firestore().collection('FinishedTasks').get();
+
+            return res.docs;
         } catch (e) {
             console.log(e)
         }

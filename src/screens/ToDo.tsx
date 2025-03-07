@@ -12,6 +12,8 @@ import TaskListItem from "../components/TaskListItem";
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import Subtext from "../components/Subtext";
 import HeaderSmall from "../components/HeaderSmall";
+import NotificationHelper from "../notifications/NotificationHelper";
+import notifee from '@notifee/react-native';
 
 const ToDo:React.FC = () => {
     const tasks:any = useSelector((state:RootState) => state.tasks);
@@ -26,6 +28,7 @@ const ToDo:React.FC = () => {
     const onTaskItemPress = (index:number):void => {
         setTaskModalVisible(true);
         setSelectedTask(index);
+        onDisplayNotification();
     }
     const onGetTasksPress = ():void => {
         console.log("todo: " + login.data._data.email);
@@ -33,6 +36,7 @@ const ToDo:React.FC = () => {
 
     }
     const toRenderFlatListItem = ({item, index}:{item:object, index:number}):React.JSX.Element => {
+        //createNotification(item._data.dateDue.toDate(), item._data.taskName, item.data.task);
         return(
             <TaskListItem
                 title={item._data.taskName}
@@ -42,32 +46,69 @@ const ToDo:React.FC = () => {
         )
     }
 
+    async function onDisplayNotification() {
+        // Request permissions (required for iOS)
+        await notifee.requestPermission()
+    
+        // Create a channel (required for Android)
+        const channelId = await notifee.createChannel({
+          id: 'default',
+          name: 'Default Channel',
+        });
+    
+        // Display a notification
+        await notifee.displayNotification({
+          title: 'Notification Title',
+          body: 'Main body content of the notification',
+          android: {
+            channelId,
+            // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+            // // pressAction is needed if you want the notification to open the app when pressed
+            pressAction: {
+              id: 'default',
+            },
+          },
+        });
+      }
+    
+    const createNotification = async(date:Date, title:string, body:string, channelId:string) => {
+        NotificationHelper.createTimeBasedNotification(date, title, body, channelId);
+    };
+
+    const createNotificationChannel = (id:string, name:string) => {
+        NotificationHelper.createNotificationChannel(id, name);
+    };
+
     const onFinishTaskPress = (oldCollectionName:string, newCollectionName:string, docName:string, index:number) => {
         store.dispatch({type:'FINISH_TASK', payload:{oldCollectionName, newCollectionName, docName, index}})
         setTaskModalVisible(false);
-        setTaskArray(tasks.data._docs);
+        //setTaskArray(tasks.data._docs);
 
     }
+
     useEffect(
         () => {console.log(tasks);
                 onGetTasksPress();
+                createNotificationChannel('tasks', 'Tasks Due');
+
+                //onDisplayNotification();
         },[]
     )
     useEffect(
         () => {
             console.log('runing')
-            if(tasks.data._docs){
+            if(tasks.data[selectedTask]){
                 setLoading(false);
                 console.log(tasks.data);
                 console.log(taskArray);
 
             }
             if(!loading){
-                setTaskArray(tasks.data._docs);
+                //setTaskArray(tasks.data._docs);
                 console.log('task array assign')
 
             }
-        },[tasks.data._docs, tasks]
+        },[tasks.data, tasks]
     )
     const [date, setDate] = useState<Date>(new Date)
     return(
@@ -84,7 +125,7 @@ const ToDo:React.FC = () => {
                 text={"Tasks"}
             />
             <FlatList
-                data={taskArray}
+                data={tasks.data}
                 renderItem={toRenderFlatListItem}
                 // keyExtractor={item=>item._data.taskName}
                 // extraData={tasks.data._docs}
@@ -105,7 +146,7 @@ const ToDo:React.FC = () => {
                         />
                         <View style={styles.modelTaskItemContainer}>
                             <Subtext 
-                                text={!loading?tasks.data._docs[selectedTask]._data.taskName:'loading'}
+                                text={!loading?tasks.data[selectedTask]._data.taskName:'loading'}
                             />
                         </View>
                         <HeaderSmall
@@ -113,7 +154,7 @@ const ToDo:React.FC = () => {
                         />
                         <View style={styles.modelTaskItemContainer}>
                             <Subtext
-                                text={!loading?tasks.data._docs[selectedTask]._data.task:'loading'}
+                                text={!loading?tasks.data[selectedTask]._data.task:'loading'}
                             />
                         </View>
                         <HeaderSmall
@@ -121,7 +162,7 @@ const ToDo:React.FC = () => {
                         />
                         <View style={styles.modelTaskItemContainer}>
                             <Subtext
-                                text={!loading?tasks.data._docs[selectedTask]._data.dateAssigned.toDate().toString():'loading'}
+                                text={!loading?tasks.data[selectedTask]._data.dateAssigned.toDate().toString():'loading'}
                             />
                         </View>
                         <HeaderSmall
@@ -129,13 +170,13 @@ const ToDo:React.FC = () => {
                         />
                         <View style={styles.modelTaskItemContainer}>
                             <Subtext
-                                text={!loading?tasks.data._docs[selectedTask]._data.dateDue.toDate().toString():'loading'}
+                                text={!loading?tasks.data[selectedTask]._data.dateDue.toDate().toString():'loading'}
                             />
                         </View>
                         <View style={styles.modalButtonsStyle}>
                             <CustomButton style={{backgroundColor: 'black'}}
                                 text="Do"
-                                onPress={()=>onFinishTaskPress('Tasks', 'FinishedTasks', tasks.data._docs[selectedTask]._data.taskName, selectedTask)}
+                                onPress={()=>onFinishTaskPress('Tasks', 'FinishedTasks', tasks.data[selectedTask]._data.taskName, selectedTask)}
                             />
                             <CustomButton style={{backgroundColor: 'black'}}
                                 text="Cancel"

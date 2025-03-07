@@ -41,7 +41,7 @@ const TaskStack:StaticParamList = createBottomTabNavigator({
     },
     screens:{
         ToDo:ToDo,
-        Doing:Doing,
+        // Doing:Doing,
         Done:Done
 
     },

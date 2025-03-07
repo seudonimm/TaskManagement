@@ -45,7 +45,7 @@ const Login:React.FC = () => {
                     onChangeText={(t:string):void => setPassword(t)}
                     textWhite={false}
                 />
-                <CustomButton
+                <CustomButton style={{backgroundColor: 'black'}}
                     text="Login"
                     onPress={():void => onLoginPress(email, password)}
                 />

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 20,
         color: BLUE,
-        margin: '5%'
+        margin: '4%'
     },
     
 });

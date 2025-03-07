@@ -89,13 +89,13 @@ const CreateTasks = () => {
                     valueField='name'
                     onChange={(item) => {setSelectedTeam(item)}}
                 />
-                {(selectedTeam)?<Dropdown style={styles.dropdown}
+                (selectedTeam)?<Dropdown style={styles.dropdown}
                     data={selectedTeam.members}
                     search
                     labelField='name'
                     valueField='name'
                     onChange={(item) => {setSelectedMember(item.id)}}
-                />:<ActivityIndicator/>}
+                />
                 <Subtext
                     text={"Task Name"}
                 />
@@ -107,7 +107,7 @@ const CreateTasks = () => {
                 <Subtext
                     text={"Description"}
                 />
-                <CustomInputField style={{height: '70%', ...styles.inputFieldStyle}}
+                <CustomInputField style={{...styles.inputFieldStyle, height: '70%'}}
                     text="Task Description..."
                     onChangeText={(t:string):void => setTaskDescription(t)}
                     textWhite={true}
@@ -115,6 +115,7 @@ const CreateTasks = () => {
                 <Subtext
                     text={"Due Date"}
                 />
+                <View style={{flex:1}}>
                 <View style={styles.datePickerButtonContainer}>
                     <CustomButton style={styles.dateButtonStyle}
                         text={date.toDateString()}
@@ -124,6 +125,7 @@ const CreateTasks = () => {
                         text={date.toTimeString()}
                         onPress={() => setOpenTime(true)}
                     />
+                </View>
                 </View>
                 <DatePicker 
                     modal
@@ -181,11 +183,12 @@ const styles = StyleSheet.create({
     },
     datePickerView: {
         //backgroundColor: PURPLE,
-        borderRadius: 30, 
-        width: '80%',
-        alignSelf: 'center',
-        borderWidth: 1,
-        borderColor: 'white'
+        // borderRadius: 30, 
+        // width: '80%',
+        // alignSelf: 'center',
+        // borderWidth: 1,
+        // borderColor: 'white'
+        flex: 1
 
     },
     dateButtonStyle: {
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     headerViewStyle: {
-        flex: 2,
+        flex: 1.5,
         backgroundColor: BLUE,
         // borderBottomLeftRadius: 10,
         // borderBottomRightRadius: 10

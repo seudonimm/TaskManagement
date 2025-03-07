@@ -2,22 +2,22 @@ import { createSlice, Slice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 interface StateType {
-    data:object
+    data:Array<object>
+    finishedData:Array<object>
 }
 interface ActionType{
     success:boolean
-    data:DataType
+    data:Array<object>
+    finishedData:Array<object>
 
 }
-interface DataType{
-    _docs:Array<object>
 
-}
 
 const TaskSlice:Slice = createSlice({
     name: 'task',
     initialState: {
-        data: {},
+        data: [],
+        finishedData:[]
 
     },
     reducers: {
@@ -36,6 +36,7 @@ const TaskSlice:Slice = createSlice({
         },
         getTaskSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
             state.data = action.payload.data
+            state.finishedData = action.payload.finishedData
 
         },
         getTaskFailure: (state:StateType, action:PayloadAction<ActionType>) => {
@@ -54,8 +55,9 @@ const TaskSlice:Slice = createSlice({
 
         },
         finishTaskSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            state.finishedData.push(state.data[action.payload.index])
             let arr = state.data;
-            arr._docs.splice(action.payload.index, 1);
+            arr.splice(action.payload.index, 1);
             state.data = arr;
             //state.data._docs = state.data._docs.splice(action.payload.index, 1)
         },
