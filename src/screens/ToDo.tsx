@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, SafeAreaView, StyleSheet, View, Text, ActivityIndicator } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import { PURPLE, BLACK, LIGHT_BLUE, BLUE } from "../res/colors";
-import LogoutButton from "../components/LogoutButton";
 import store from "../store/Store";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
@@ -15,7 +13,10 @@ import HeaderSmall from "../components/HeaderSmall";
 import NotificationHelper from "../notifications/NotificationHelper";
 import notifee from '@notifee/react-native';
 import WatermelonHelper from "../model/watermelonHelper/WatermelonHelper";
-import * as util from 'util'
+import * as util from 'util';
+import {syncFireMelon} from 'firemelon';
+import { database } from "../model/Database";
+import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 
 const ToDo:React.FC = () => {
     const tasks:any = useSelector((state:RootState) => state.tasks);
@@ -28,11 +29,12 @@ const ToDo:React.FC = () => {
     const [taskArray, setTaskArray] = useState<Array<object>>([]);
 
     const [dBData, setDBData] = useState<any>(); //comeback to this
+   
 
     const onTaskItemPress = (index:number):void => {
         setTaskModalVisible(true);
         setSelectedTask(index);
-        onDisplayNotification();
+        //onDisplayNotification();
     }
     const onGetTasksPress = ():void => {
         console.log("todo: " + login.data._data.email);
@@ -41,7 +43,7 @@ const ToDo:React.FC = () => {
     }
     const toRenderFlatListItem = ({item, index}:{item:object, index:number}):React.JSX.Element => {
         //createNotification(item._data.dateDue.toDate(), item._data.taskName, item.data.task);
-        setWatermelonHelperData(item._data);
+        //setWatermelonHelperData(item._data);
         return(
             <TaskListItem
                 title={item._data.taskName}
@@ -51,61 +53,32 @@ const ToDo:React.FC = () => {
         )
     }
 
-    async function onDisplayNotification() {
-        // Request permissions (required for iOS)
-        await notifee.requestPermission()
-    
-        // Create a channel (required for Android)
-        const channelId = await notifee.createChannel({
-          id: 'default',
-          name: 'Default Channel',
-        });
-    
-        // Display a notification
-        await notifee.displayNotification({
-          title: 'Notification Title',
-          body: 'Main body content of the notification',
-          android: {
-            channelId,
-            // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-            // // pressAction is needed if you want the notification to open the app when pressed
-            pressAction: {
-              id: 'default',
-            },
-          },
-        });
-      }
-    
-    const createNotification = async(date:Date, title:string, body:string, channelId:string) => {
-        NotificationHelper.createTimeBasedNotification(date, title, body, channelId);
-    };
-
-    const createNotificationChannel = (id:string, name:string) => {
-        NotificationHelper.createNotificationChannel(id, name);
-    };
-
     const onFinishTaskPress = (oldCollectionName:string, newCollectionName:string, docName:string, index:number) => {
         store.dispatch({type:'FINISH_TASK', payload:{oldCollectionName, newCollectionName, docName, index}})
         setTaskModalVisible(false);
         //setTaskArray(tasks.data._docs);
 
     }
-    const getWatermelonHelperData = async() => {
-        setDBData(await WatermelonHelper.getTasksFromDB());
-        console.log (await WatermelonHelper.getTasksFromDB());
-        return await WatermelonHelper.getTasksFromDB();
-    }
-    const setWatermelonHelperData = async(item:any) => {
-        await WatermelonHelper.saveTaskToDB(item);
+    // const getWatermelonHelperData = async() => {
+    //     setDBData(await WatermelonHelper.getTasksFromDB());
+    //     console.log (await WatermelonHelper.getTasksFromDB());
+    //     return await WatermelonHelper.getTasksFromDB();
+    // }
+    // const setWatermelonHelperData = async(item:any) => {
+    //     await WatermelonHelper.saveTaskToDB(item);
 
-    }
+    // }
 
+    const sync = async() => {
+        await WatermelonHelper.syncFirestoreAndWatermelonDB('Tasks', login.data._data.email);
+    }
     useEffect(
         () => {console.log(tasks);
                 onGetTasksPress();
-                createNotificationChannel('tasks', 'Tasks Due');
-                console.log(util.inspect(getWatermelonHelperData()));
+                //createNotificationChannel('tasks', 'Tasks Due');
+                //console.log(util.inspect(getWatermelonHelperData()));
                 //onDisplayNotification();
+                sync();
         },[]
     )
     useEffect(
