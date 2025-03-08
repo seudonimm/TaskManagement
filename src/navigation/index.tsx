@@ -17,6 +17,7 @@ import LeaderMemberView from "../screens/LeaderMemberView";
 import { BLACK, BLUE, LIGHT_BLUE, PURPLE } from "../res/colors";
 import CreateTasks from "../screens/CreateTasks";
 import Settings from "../screens/Settings";
+import { blue } from "react-native-reanimated/lib/typescript/Colors";
 
 const AuthStack:StaticParamList = createNativeStackNavigator({
     screenOptions:{
@@ -35,6 +36,7 @@ const TaskStack:StaticParamList = createBottomTabNavigator({
     screenOptions:{
         headerShown:false,
         tabBarStyle: {
+            backgroundColor: BLUE
             backgroundColor: BLUE
         },
         tabBarActiveTintColor: PURPLE
@@ -65,9 +67,11 @@ const MemberDrawer = createDrawerNavigator({
     screenOptions:{
         headerStyle:{
             backgroundColor: BLUE,
+            backgroundColor: BLUE,
         },
         headerTintColor: PURPLE,
         drawerStyle:{
+            backgroundColor: BLUE
             backgroundColor: BLUE
         },
         drawerActiveTintColor:PURPLE,
@@ -90,9 +94,11 @@ const LeaderDrawer = createDrawerNavigator({
     screenOptions:{
         headerStyle:{
             backgroundColor: BLUE,
+            backgroundColor: BLUE,
         },
         headerTintColor: PURPLE,
         drawerStyle:{
+            backgroundColor: BLUE
             backgroundColor: BLUE
         },
         drawerActiveTintColor:PURPLE,
