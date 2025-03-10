@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList, Modal, StyleSheet, View, ActivityIndicator } fr
 import CustomButton from "../components/CustomButton";
 import LogoutButton from "../components/LogoutButton";
 import { useSelector } from "react-redux";
-import store, { RootState } from "../store/Store";
+import {store, RootState } from "../store/Store";
 import CustomFlatListItem from "../components/CustomFlatListItem";
 import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
@@ -56,6 +56,7 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                 text={teams.teams[teamName].members[index].name}
                 onViewPress={() => onViewButtonPress}
                 onDeletePress={() => onDeleteButtonPress}
+                image={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/member.png')}
             />
         )
     }
@@ -65,6 +66,7 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                 text={item._data.name}
                 onViewPress={() => onViewButtonPress('Users', login.data._data.email, teamName, item._data.name, item._data.email)}
                 onDeletePress={() => onDeleteButtonPress}
+                image={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/member.png')}
             />
         )
     }
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
     },
     flatlistViewContainer: {
         height: '40%',
-        width: '80%',
+        width: '90%',
         borderWidth: 1,
         borderColor: BLUE,
         alignSelf: 'center',

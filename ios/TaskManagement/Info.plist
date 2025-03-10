@@ -47,5 +47,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need access to your calendar to add events</string>
+
 </dict>
 </plist>

@@ -20,20 +20,22 @@ import {
 } from 'react-native';
 import Login from './src/screens/Login';
 import { Provider } from 'react-redux';
-import store from './src/store/Store';
+import {store, persistor} from './src/store/Store';
 import CreateAccount from './src/screens/CreateAccount';
 import AppNavigation from './src/navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import { BLACK, PURPLE } from './src/res/colors';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 
 function App(): React.JSX.Element {
-
-
+  
   return (
       <Provider store={store}>
-        <AppNavigation/>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppNavigation/>
+        </PersistGate>
       </Provider>
   );
 }

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Modal, SafeAreaView, StyleSheet, View, FlatList, Text } from "react-native";
-import { PURPLE, BLACK, LIGHT_BLUE, BLUE } from "../res/colors";
+import React, { useEffect, useState, useRef } from "react";
+import { Modal, SafeAreaView, StyleSheet, View, FlatList } from "react-native";
+import { PURPLE, LIGHT_BLUE, BLUE } from "../res/colors";
 import {store} from "../store/Store";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/Store";
 import TaskListItem from "../components/TaskListItem";
-import {Agenda, CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import Subtext from "../components/Subtext";
 import HeaderSmall from "../components/HeaderSmall";
 import WatermelonHelper from "../model/watermelonHelper/WatermelonHelper";
-import CalendarHelper from "../calendar/CalendarHelper";
 import CommentListItem from "../components/CommentListItem";
 import CustomInputField from "../components/CustomInputField";
 
-const ToDo:React.FC = () => {
+const LeaderTaskView:React.FC = () => {
     const tasks:any = useSelector((state:RootState) => state.tasks);
     const login = useSelector((state:RootState) => state.login);
 
@@ -26,13 +24,14 @@ const ToDo:React.FC = () => {
    
     const [comment, setComment] = useState<string>('');
 
+    const commentListRef = useRef();
     const onTaskItemPress = (index:number):void => {
         setTaskModalVisible(true);
         setSelectedTask(index);
     }
     const onGetTasksPress = ():void => {
         console.log("todo: " + login.data._data.email);
-        store.dispatch({type:'GET_TASKS', payload:{collectionName:'Tasks', memberId:login.data._data.email}})
+        store.dispatch({type:'GET_ALL_TASKS', payload:{collectionName:'Tasks', memberId:login.data._data.email}})
 
     }
     const onAddCommentPress = (taskName:string, name:string, id:string, message:string) => {
@@ -87,24 +86,22 @@ const ToDo:React.FC = () => {
                 console.log('task array assign')
 
             }
-            for(let e of tasks.data){
-                CalendarHelper.addEventToCalendar(e._data.taskName, e._data.task, e._data.task, e._data.dateAssigned.toDate(), e._data.dateDue.toDate());
-            }
+            // for(let e of tasks.data){
+            //     CalendarHelper.addEventToCalendar(e._data.taskName, e._data.task, e._data.task, e._data.dateAssigned.toDate(), e._data.dateDue.toDate());
+            // }
         },[tasks.data, tasks]
     )
     //const [date, setDate] = useState<Date>(new Date)
     return(
         <SafeAreaView style={styles.container}>
-            <View style={{flex:1, zIndex:1}}>
-                {/* <CalendarProvider
+            {/* <View style={{flex:1, zIndex:1}}>
+                <CalendarProvider style={{borderRadius: 10}}
                     date={new Date().toDateString()}
                 >
                     <ExpandableCalendar 
                     />
-                    <Text>I am calendar</Text>
-                </CalendarProvider> */}
-                <Agenda/>
-            </View>
+                </CalendarProvider>
+            </View> */}
             <View style={{flex:3.7}}>
             <Subtext
                 text={"Tasks"}
@@ -167,17 +164,16 @@ const ToDo:React.FC = () => {
                                 onPress={():void => setTaskModalVisible(false)}
                             />
                         </View>
-                        
                         <View style={styles.modelTaskItemContainer}>
                             <FlatList style={{height: '30%'}}
-                            data={!loading?tasks.data[selectedTask]._data.comments:[]}
-                            renderItem={toRenderFlatListComments}
-                            keyExtractor={(item) => item.id + item.timeSent}
-                            extraData={tasks.comments}
-                        />
+                                data={!loading?tasks.data[selectedTask]._data.comments:[]}
+                                renderItem={toRenderFlatListComments}
+                                keyExtractor={(item) => item.id + item.timeSent}
+                                extraData={tasks.comments}
+                            />
                         </View>
                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <CustomInputField style={{flex: 2, width: '85%', height: '50%', marginTop: '4%'}}
+                            <CustomInputField style={{flex: 1, width: '85%'}}
                                 text="Enter Comment..."
                                 onChangeText={t => setComment(t)}
                             />
@@ -213,7 +209,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '90%',
-        height: '85%',
+        height: '80%',
         borderWidth: 1,
         borderRadius: 20,
         borderColor: PURPLE,
@@ -223,7 +219,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         verticalAlign: 'middle',
         backgroundColor: BLUE,
-        marginTop: '20%',
+        marginTop: '30%',
         padding: '5%',
         shadowColor: 'black',
         shadowRadius:20,
@@ -266,4 +262,4 @@ const styles = StyleSheet.create({
     }
 
 })
-export default ToDo;
+export default LeaderTaskView;

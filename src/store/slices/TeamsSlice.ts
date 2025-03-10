@@ -64,6 +64,19 @@ const TeamsSlice:Slice = createSlice({
             console.log("add member: " + action.payload)
 
         },
+        deleteTeam: () => {
+
+        },
+        deleteTeamSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            console.log("action loged:" + action.payload.data);
+            state.teams[action.payload.teamName].members.push(action.payload.data);
+            //console.log("add member: " +JSON.stringify(action.payload))
+        },
+        deleteTeamFailure: (state:StateType, action:PayloadAction<ActionType>) => {
+            console.log("add member: " + action.payload)
+
+        },
+        
         
     }
 })
@@ -82,5 +95,8 @@ export const {
     createTeamFailure,
     addMemberToTeam,
     addMemberToTeamSuccess,
-    addMemberToTeamFailure
+    addMemberToTeamFailure,
+    deleteTeam,
+    deleteTeamSuccess,
+    deleteTeamFailure
 } = TeamsSlice.actions

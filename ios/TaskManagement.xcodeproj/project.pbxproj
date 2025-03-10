@@ -12,6 +12,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C0C068E6459F103BC1BEE6CA /* Pods_TaskManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 917A5E83207729D93619F833 /* Pods_TaskManagement.framework */; };
 		D752AA545387F03AFDA0E3FB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		DF23233C2D7D07B100EED261 /* RCTCalendarModule.m in Sources */ = {isa = PBXBuildFile; fileRef = DF23233B2D7D07B100EED261 /* RCTCalendarModule.m */; };
 		DF88E68D2D70B7AD00D71945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF88E68C2D70B7AD00D71945 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,9 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TaskManagement/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TaskManagement/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		917A5E83207729D93619F833 /* Pods_TaskManagement.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskManagement.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF2323392D7D074300EED261 /* RCTCalendarModule 2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCTCalendarModule 2.h"; sourceTree = "<group>"; };
+		DF23233A2D7D07B100EED261 /* TaskManagement-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TaskManagement-Bridging-Header.h"; sourceTree = "<group>"; };
+		DF23233B2D7D07B100EED261 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCalendarModule.m; path = TaskManagement/RCTCalendarModule.m; sourceTree = "<group>"; };
 		DF88E68C2D70B7AD00D71945 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -49,6 +53,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				DF2323392D7D074300EED261 /* RCTCalendarModule 2.h */,
+				DF23233B2D7D07B100EED261 /* RCTCalendarModule.m */,
+				DF23233A2D7D07B100EED261 /* TaskManagement-Bridging-Header.h */,
 			);
 			name = TaskManagement;
 			sourceTree = "<group>";
@@ -135,7 +142,7 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1620;
 					};
 				};
 			};
@@ -265,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				DF23233C2D7D07B100EED261 /* RCTCalendarModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +301,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TaskManagement;
 				PRODUCT_NAME = TaskManagement;
+				SWIFT_OBJC_BRIDGING_HEADER = "TaskManagement-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -320,6 +329,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TaskManagement;
 				PRODUCT_NAME = TaskManagement;
+				SWIFT_OBJC_BRIDGING_HEADER = "TaskManagement-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

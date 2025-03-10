@@ -4,11 +4,13 @@ import { PayloadAction } from "@reduxjs/toolkit";
 interface StateType {
     data:Array<object>
     finishedData:Array<object>
+    comments:Array<object>
 }
 interface ActionType{
     success:boolean
     data:Array<object>
     finishedData:Array<object>
+    comments:Array<object>
 
 }
 
@@ -17,7 +19,8 @@ const TaskSlice:Slice = createSlice({
     name: 'task',
     initialState: {
         data: [],
-        finishedData:[]
+        finishedData:[],
+        comments: []
 
     },
     reducers: {
@@ -64,7 +67,21 @@ const TaskSlice:Slice = createSlice({
         finishTaskFailure: (state:StateType, action:PayloadAction<ActionType>) => {
 
         },
+        creatComment: () => {
 
+        },        
+        creatCommentSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
+            console.log("created comment: " + action.payload.data);
+            let arr = state.data;
+            arr[action.payload.index]._data.comments.push(action.payload.comments)
+            state.data = arr;
+            state.comments = action.payload.comments;
+            // state.data[action.payload.index]._data.comments.push(action.payload.comments)
+            console.log("index: " + action.payload.index);
+        },        
+        creatCommentFailure: () => {
+
+        },
 
     }
 });
@@ -83,5 +100,8 @@ export const {
     deleteTaskFailure,
     finishTask,
     finishTaskSuccess,
-    finishTaskFailure
+    finishTaskFailure,
+    creatComment,
+    creatCommentSuccess,
+    creatCommentFailure
 } = TaskSlice.actions

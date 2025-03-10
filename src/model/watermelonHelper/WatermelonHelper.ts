@@ -54,8 +54,8 @@ class WatermelonHelper{
             const col = await FirestoreHelper.getTasks(collectionName, memberId);
             let db = await this.getTasksFromDB('tasks');
 
-            console.log("db before: " + db);
-            console.log("col before: " + JSON.stringify(util.inspect(col[0]._data)));
+            // console.log("db before: " + db);
+            // console.log("col before: " + JSON.stringify(util.inspect(col[0]._data)));
 
             if(db == ''){
                 for(let i = 0; i < col.length; i++){
@@ -64,11 +64,11 @@ class WatermelonHelper{
                 }
                 // await this.saveTaskToDB(col[0]._data, 'tasks');
                 // db = await this.getTasksFromDB('tasks');
-                console.log('task saved');
+                // console.log('task saved');
 
             }
-            console.log("col: " + JSON.stringify(util.inspect(col)));
-            console.log("db after: " + JSON.stringify(util.inspect(db)));
+            // console.log("col: " + JSON.stringify(util.inspect(col)));
+            // console.log("db after: " + JSON.stringify(util.inspect(db)));
 
 
         } catch (e) {

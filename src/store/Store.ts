@@ -5,20 +5,24 @@ import logger from 'redux-logger';
 import rootSaga from "./sagas/rootSaga";
 import TeamsSlice from "./slices/TeamsSlice";
 import TaskSlice from "./slices/TaskSlice";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistReducer } from 'redux-persist';
+import { persistStore } from 'redux-persist';
+
 
 const sagaMiddleware = createSagaMiddleware();
 
-// const persistConfig = {
-//     key: 'root',
-//     storage: AsyncStorage
-// };
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage
+};
 
-//const persistedReducer = persistReducer(persistConfig, listSlice.reducer);
+const persistedReducer = persistReducer(persistConfig, loginSlice.reducer);
 
-const store = configureStore({
+export const store = configureStore({
     reducer: {
-        //list: persistedReducer,//listSlice.reducer
-        login: loginSlice.reducer,
+        login: persistedReducer,//listSlice.reducer
+        //login: loginSlice.reducer,
         teams: TeamsSlice.reducer,
         tasks: TaskSlice.reducer
     },
@@ -40,4 +44,4 @@ sagaMiddleware.run(rootSaga);
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>
-//export const persistor = persistStore(store);
+export const persistor = persistStore(store);

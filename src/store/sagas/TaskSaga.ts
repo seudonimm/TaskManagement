@@ -3,7 +3,8 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import FirestoreHelper from '../../firebase/firestore/FirestoreHelper';
 import { Timestamp } from '@react-native-firebase/firestore';
-import { createTaskFailure, createTaskSuccess, deleteTaskFailure, deleteTaskSuccess, finishTaskFailure, finishTaskSuccess, getTaskFailure, getTaskSuccess } from '../slices/TaskSlice';
+import { creatCommentFailure, creatCommentSuccess, createTaskFailure, createTaskSuccess, deleteTaskFailure, deleteTaskSuccess, finishTaskFailure, finishTaskSuccess, getTaskFailure, getTaskSuccess } from '../slices/TaskSlice';
+import { Alert } from 'react-native';
 
 
 export interface ActionType{
@@ -19,6 +20,10 @@ export interface ActionType{
     newCollectionName:string
     index:number
     finishedData:object
+    taskName:string
+    name:string 
+    id:string 
+    message:string
 }
 
 
@@ -30,7 +35,7 @@ function* createTask(action:PayloadAction<ActionType>):Generator{
     try{
         const {collectionName, docName, teamName, assignedTo, task, dateAssigned, dateDue} = action.payload
         let res = yield call(FirestoreHelper.createTask, collectionName, docName, teamName, assignedTo, task, dateAssigned, dateDue);
-
+        Alert.alert('Task Created');
         yield put(createTaskSuccess({success: true, data: res}));
     }catch(e){
         yield put(createTaskFailure({success: false, data: e}));
@@ -44,6 +49,19 @@ function* getTasks(action:PayloadAction<ActionType>):Generator{
         const {collectionName, memberId} = action.payload
         console.log("saga: " + memberId);
         let res = yield call(FirestoreHelper.getTasks, collectionName, memberId);
+        let finishedRes = yield call(FirestoreHelper.getFinishedTasks, collectionName);
+
+        yield put(getTaskSuccess({success: true, data: res, finishedData: finishedRes}));
+    }catch(e){
+        yield put(getTaskFailure({success: false, data: e}));
+
+    }
+
+}
+function* getAllTasks(action:PayloadAction<ActionType>):Generator{
+    try{
+        const {collectionName} = action.payload
+        let res = yield call(FirestoreHelper.getAllTasks, collectionName);
         let finishedRes = yield call(FirestoreHelper.getFinishedTasks, collectionName);
 
         yield put(getTaskSuccess({success: true, data: res, finishedData: finishedRes}));
@@ -79,12 +97,32 @@ function* finishTask (action:PayloadAction<ActionType>):Generator {
     }
 }
 
+function* createComment (action:PayloadAction<ActionType>):Generator {
+    try {
+        const {taskName, name, id, message, index} = action.payload;
+        let res = yield call(FirestoreHelper.createComment, taskName, name, id, message);
+        console.log("created comment: " + res);
+        yield put(creatCommentSuccess({success:true, data:res, index:index, comments: {
+            name:name,
+            id:id,
+            message:message,
+            timeSent:Timestamp.now()
+        }}))
+        console.log("saga working");
+    } catch (e) {
+        console.log(e);
+        yield put(creatCommentFailure({success:false, data:e}))
+
+    }
+}
 
 function* TaskSaga():Generator{
     yield takeLatest('CREATE_TASK', createTask);
     yield takeLatest('GET_TASKS', getTasks);
+    yield takeLatest('GET_ALL_TASKS', getAllTasks);
     yield takeLatest('DELETE_TASK', deleteTask);
     yield takeLatest('FINISH_TASK', finishTask);
+    yield takeLatest('CREATE_COMMENT', createComment)
 }
 
 export default TaskSaga;

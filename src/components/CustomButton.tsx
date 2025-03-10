@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         margin: '1%',
-        padding: '3%'
+        //padding: '3%'
     },
     textStyle: {
         zIndex:1,

@@ -4,7 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { PURPLE, BLACK, LIGHT_BLUE, BLUE } from "../res/colors";
 import CustomButton from "../components/CustomButton";
 import Subtext from "../components/Subtext";
-import store from "../store/Store";
+import {store} from "../store/Store";
 import TaskListItem from "../components/TaskListItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/Store";
@@ -71,7 +71,7 @@ const Done:React.FC = () => {
         <SafeAreaView style={styles.container}>
             <View style={{flex:3.7}}>
             <Subtext
-                text={"Tasks"}
+                text={"Finished Tasks"}
             />
             <FlatList
                 data={tasks.finishedData}

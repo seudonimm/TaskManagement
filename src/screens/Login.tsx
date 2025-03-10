@@ -3,13 +3,12 @@ import { SafeAreaView, StyleSheet, Image } from "react-native";
 import CustomInputField from "../components/CustomInputField";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
-import store, {RootState} from "../store/Store";
+import {store, RootState} from "../store/Store";
 import { NavigationProp, ParamListBase, useNavigation } from "@react-navigation/native";
 import CustomPressable from "../components/CustomPressable";
 import Header from "../components/Header";
-import { BLACK, BLUE, PURPLE } from "../res/colors";
-import LinearGradient from "react-native-linear-gradient";
-
+import { BLUE } from "../res/colors";
+import { Platform } from "react-native";
 
 const Login:React.FC = () => {
     const login = useSelector((state:RootState) => state.login);
@@ -33,7 +32,7 @@ const Login:React.FC = () => {
                 <Image style={styles.imageStyle} 
                     source={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/front.png')}
                 />
-                <Header
+                <Header style={{marginBottom: '2%'}}
                     text={"Task\nManagement"}
                 />
                 <CustomInputField
@@ -45,14 +44,15 @@ const Login:React.FC = () => {
                     onChangeText={(t:string):void => setPassword(t)}
                     textWhite={false}
                 />
-                <CustomButton style={{backgroundColor: 'black'}}
-                    text="Login"
-                    onPress={():void => onLoginPress(email, password)}
-                />
                 <CustomPressable
                     text="Create Account"
                     onPress={():void => onCreateAccountPress()}
                 />
+                <CustomButton style={{backgroundColor: 'black', flex:0, height: '10%', marginTop: '10%'}}
+                    text="Login"
+                    onPress={():void => onLoginPress(email, password)}
+                />
+
             </SafeAreaView>
     );
 };
@@ -63,10 +63,11 @@ const styles = StyleSheet.create({
         backgroundColor: BLUE
     },
     imageStyle: {
-        height: '50%',
-        width: '100%'
-
-
+        height: Platform.OS === 'ios'? '38%': '35%',
+        width: Platform.OS === 'ios'? '90%': '90%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: '10%'
     }
 })
 export default Login;

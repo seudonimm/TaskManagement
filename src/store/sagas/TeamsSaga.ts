@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth'
 import FirestoreHelper from '../../firebase/firestore/FirestoreHelper';
 import { call, takeLatest, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { addMemberToTeamFailure, addMemberToTeamSuccess, createTeamFailure, createTeamSuccess, getMemberUsersFailure, getMemberUsersSuccess, getTeamsDataFailure, getTeamsDataSuccess } from '../slices/TeamsSlice';
+import { addMemberToTeamFailure, addMemberToTeamSuccess, createTeamFailure, createTeamSuccess, deleteTeamFailure, deleteTeamSuccess, getMemberUsersFailure, getMemberUsersSuccess, getTeamsDataFailure, getTeamsDataSuccess } from '../slices/TeamsSlice';
 import { createAccountFailure, createAccountSuccess } from '../slices/LoginSlice';
 import { collection } from '@react-native-firebase/firestore';
 
@@ -66,6 +66,16 @@ function* addMemberToTeam (action:PayloadAction<TeamsActionType>):Generator {
     } catch (e) {
         yield put(addMemberToTeamFailure({success: false, data:{e}}));
 
+    }
+}
+function* deleteTeam(action:PayloadAction<ActionType>):Generator {
+    try {
+        const {collectionName, docName} = action.payload;
+        let res = yield call(FirestoreHelper.deleteDocument, collectionName, docName);
+
+        yield put(deleteTeamSuccess({success:true, data:res}))
+    } catch (e) {
+        yield put(deleteTeamFailure({success:false, data:e}))
     }
 }
 

@@ -103,6 +103,22 @@ class FirestoreHelper{
             console.log(e);
         }
     }
+    
+    createComment = async(taskName:string, name:string, id:string, message:string) => {
+        try {
+            let res = await firestore().collection('Tasks').doc(taskName).update({
+                [`comments`]: firestore.FieldValue.arrayUnion({
+                    name:name,
+                    id:id,
+                    message:message,
+                    timeSent:Timestamp.now()
+                })
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     createTask = async(collectionName:string, docName:string, teamName:string, assignedTo:string, task:string, dateAssigned:Timestamp, dateDue:Timestamp) => {
         try {
@@ -113,13 +129,19 @@ class FirestoreHelper{
                 task:task,
                 dateAssigned:dateAssigned,
                 dateDue:dateDue,
+                comments:[{
+                    name:'testName',
+                    id:'testId',
+                    message:'testMessage',
+                    timeSent:new Timestamp(4, 3)
+                }]
             });
-            await res.doc(docName).collection('Comments').set({
-                name:'testName',
-                id:'testId',
-                message:'testMessage',
-                timeSent:new Timestamp(4, 3)
-            });
+            // await res.doc(docName).collection('Comments').set({
+            //     name:'testName',
+            //     id:'testId',
+            //     message:'testMessage',
+            //     timeSent:new Timestamp(4, 3)
+            // });
         } catch (e) {
             console.log(e);
         }
@@ -139,6 +161,16 @@ class FirestoreHelper{
             console.log("helper: " + memberId);
             //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
             let res = await firestore().collection(collectionName).where(Filter('assignedTo', '==', `${memberId}`)).orderBy('dateDue', 'asc').get();
+
+            return res.docs;
+        } catch (e) {
+            console.log(e)
+        }
+    }    
+    getAllTasks = async(collectionName:string) => {
+        try {
+            //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
+            let res = await firestore().collection('Tasks').get();
 
             return res.docs;
         } catch (e) {

@@ -2907,6 +2907,8 @@ PODS:
     - React-perflogger (= 0.77.1)
     - React-utils (= 0.77.1)
   - RecaptchaInterop (100.0.0)
+  - RNCalendarEvents (2.2.0):
+    - React
   - RNFBApp (21.11.0):
     - Firebase/CoreOnly (= 11.8.0)
     - React-Core
@@ -3187,6 +3189,7 @@ DEPENDENCIES:
   - ReactAppDependencyProvider (from `build/generated/ios`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNCalendarEvents (from `../node_modules/react-native-calendar-events`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -3359,6 +3362,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCalendarEvents:
+    :path: "../node_modules/react-native-calendar-events"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -3468,6 +3473,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 90bb8dd83136fc05f54b8aaab40345affc93aeff
   ReactCommon: 8953b677c1d2ed01905f3cd5dced07ead9ec4c8e
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RNCalendarEvents: f90f73666b6bcbb3cc8a491ffbb5e48c0db3de37
   RNFBApp: b5626640e0f4b4fe5be4f44375df703c0d62ee4b
   RNFBAuth: 4d211bc48e5b8cf67815a49661b4c8b638b842b2
   RNFBFirestore: 26f155554d3c9e5dbbaff2a63bc1dbffed73fc7f

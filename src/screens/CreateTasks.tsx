@@ -11,7 +11,7 @@ import DatePicker from "react-native-date-picker";
 import CustomButton from "../components/CustomButton";
 import { Dropdown } from "react-native-element-dropdown";
 import { useSelector } from "react-redux";
-import store, { RootState } from "../store/Store";
+import {store, RootState } from "../store/Store";
 import { Timestamp } from "@react-native-firebase/firestore";
 import { firebase } from "@react-native-firebase/auth";
 
@@ -107,22 +107,22 @@ const CreateTasks = () => {
                 <Subtext
                     text={"Description"}
                 />
-                <CustomInputField style={{...styles.inputFieldStyle, height: '70%'}}
+                <CustomInputField style={{...styles.inputFieldStyle,}}
                     text="Task Description..."
                     onChangeText={(t:string):void => setTaskDescription(t)}
                     textWhite={true}
                 />
-                <Subtext
+                <Subtext style={{margin: '1%'}}
                     text={"Due Date"}
                 />
                 <View style={{flex:1}}>
                 <View style={styles.datePickerButtonContainer}>
                     <CustomButton style={styles.dateButtonStyle}
-                        text={date.toDateString()}
+                        text={date.toLocaleDateString()}
                         onPress={() => setOpenDate(true)}
                     />
                     <CustomButton style={styles.dateButtonStyle}
-                        text={date.toTimeString()}
+                        text={date.toLocaleTimeString()}
                         onPress={() => setOpenTime(true)}
                     />
                 </View>
@@ -149,7 +149,7 @@ const CreateTasks = () => {
                     }}
                     onCancel={() => setOpenTime(false)}
                 />
-                <CustomButton
+                <CustomButton style={{flex:0, height: '10%', backgroundColor: 'black'}}
                     text="Create Task"
                     onPress={() => onCreateTaskPress('Tasks', taskName, selectedTeam.name, selectedMember, taskDescription, firebase.firestore.Timestamp.fromDate(new Date), firebase.firestore.Timestamp.fromDate(date))}
                 />
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         // borderBottomRightRadius: 10
     },
     inputFieldStyle: {
-        backgroundColor: BLUE
+        backgroundColor: BLUE,
     }
       
       

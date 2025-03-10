@@ -4,6 +4,8 @@ import React_RCTAppDelegate
 import ReactAppDependencyProvider
 
 import FirebaseCore
+import EventKit
+import EventKitUI
 
 @main
 class AppDelegate: RCTAppDelegate {

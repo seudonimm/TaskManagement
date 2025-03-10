@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList, Modal, StyleSheet, View } from "react-native";
 import CustomButton from "../components/CustomButton";
 import LogoutButton from "../components/LogoutButton";
 import { useSelector } from "react-redux";
-import store, { RootState } from "../store/Store";
+import {store, RootState } from "../store/Store";
 import CustomFlatListItem from "../components/CustomFlatListItem";
 import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
@@ -45,11 +45,13 @@ const LeaderTeamView:React.FC = () => {
     }
 
     const toRenderFlatListItem = ({item}:{item:string}) => {
+        console.log('to top')
         return(
             <CustomFlatListItem
                 text={item}
                 onViewPress={() => onViewButtonPress(item)}
                 onDeletePress={() => onDeleteButtonPress}
+                image={require("/Users/jusman/Documents/Training/Projects/TaskManagement/assets/team.png")}
             />
         )
     }
@@ -72,20 +74,21 @@ const LeaderTeamView:React.FC = () => {
     return(
         <SafeAreaView style={styles.container}>
             <View style={styles.headerViewStyle}>
-            <Header
+            <Header style={{marginBottom: '1%', justifyContent: 'center'}}
                 text={"Teams"}
             />
             </View>
-            <View style={styles.flatlistViewContainer}>
-                <FlatList
+            {/* <View style={styles.flatlistViewContainer}> */}
+                <FlatList style={{flex: 1}}
                     data={Object.keys(teams.teams)}
                     renderItem={toRenderFlatListItem}
                 />
-            </View>
-            <CustomButton style={{flex: 1}}
-                text="Create Team"
-                onPress={():void => setCreateTeamModalVisible(!createTeamModalVisible)}
-            />
+
+                <CustomButton style={{flex: 0, height: '5%'}}
+                    text="Create Team"
+                    onPress={():void => setCreateTeamModalVisible(!createTeamModalVisible)}
+                />
+            {/* </View> */}
             <View  style={styles.centeredView}>
                 <Modal
                     visible={createTeamModalVisible}
@@ -101,11 +104,11 @@ const LeaderTeamView:React.FC = () => {
                             onChangeText={(t:string):void => setTeamName(t)}
                         />
                         <View style={styles.modalButtonsStyle}>
-                            <CustomButton 
+                            <CustomButton style={{backgroundColor: 'black'}}
                                 text="Create Team"
                                 onPress={():Promise<void> => onCreateTeamPress(teamName)}
                             />
-                            <CustomButton 
+                            <CustomButton style={{backgroundColor: 'black'}}
                                 text="Cancel"
                                 onPress={():void => setCreateTeamModalVisible(false)}
                             />
@@ -138,28 +141,28 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignContent: 'center',
         verticalAlign: 'middle',
-        backgroundColor: BLACK,
-        marginTop: '20%',
+        backgroundColor: BLUE,
+        marginTop: '50%',
         padding: '5%',
         shadowColor: 'black',
         shadowRadius:20,
-        shadowOpacity: .50,
-        elevation: 2,
+        shadowOpacity: .75,
+        elevation: 4,
         shadowOffset: {
-            width: 25,
-            height: 25
+            width: 30,
+            height: 30
         },
     },
     flatlistViewContainer: {
         flex: 8,
-        height: '80%',
-        width: '90%',
+        //height: '100%',
+        width: '95%',
         // borderWidth: 1,
         // borderColor: PURPLE,
         alignSelf: 'center',
         borderRadius: 10,
-        margin: '1%',
-        paddingVertical: '5%'
+        //margin: '1%',
+        paddingVertical: '5%',
     },
     modalButtonsStyle: {
         flex:1,
@@ -167,10 +170,10 @@ const styles = StyleSheet.create({
         
     },
     headerViewStyle: {
-        flex: 2,
+        //flex: 1.5,
         backgroundColor: BLUE,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20
     }
 
 })
