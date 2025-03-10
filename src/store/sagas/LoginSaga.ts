@@ -26,7 +26,7 @@ function* logInToAccount(action:PayloadAction<ActionType>):Generator{
         let res = yield call(auth().signInWithEmailAndPassword, email, password);
         let authRes = yield call(FirestoreHelper.getFirestoreData, 'Users', email);
         //console.log('res ' + res);
-        yield put(loginSuccess({...res.user, authRes}));
+        yield put(loginSuccess({...res.user, authRes:{...authRes._data}}));
     }catch(e:any){
         console.log('fffff')
         if(e.code === 'auth/email-already-in-use'){

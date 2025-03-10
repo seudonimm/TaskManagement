@@ -47,7 +47,7 @@ const loginSlice:Slice = createSlice({
         loginSuccess: (state:StateType, action) => {
             state.user = action.payload.data;
             state.loggedIn = true;
-            state.leader = action.payload.authRes._data.leader
+            state.leader = action.payload.authRes.leader
             state.data = action.payload.authRes
         },
         loginFailed: () => {

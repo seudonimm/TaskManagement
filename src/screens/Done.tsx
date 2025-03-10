@@ -26,7 +26,7 @@ const Done:React.FC = () => {
         //onDisplayNotification();
     }
     const onGetTasksPress = ():void => {
-        console.log("todo: " + login.data._data.email);
+        console.log("todo: " + login.data.email);
         store.dispatch({type:'GET_TASKS', payload:{collectionName:'FinishedTasks'}})
 
     }

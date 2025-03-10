@@ -28,7 +28,7 @@ const LeaderTeamView:React.FC = () => {
     const onCreateTeamPress = async(teamName:string):Promise<void> => {
         // FirestoreHelper.createTeam('Users', login.data._data.email,teamName);
         setCreateTeamModalVisible(false);
-        store.dispatch({type:'CREATE_TEAM', payload:{collectionName:'Users', docName:login.data._data.email, teamName} })
+        store.dispatch({type:'CREATE_TEAM', payload:{collectionName:'Users', docName:login.data.email, teamName} })
     }
 
     const onViewButtonPress = (teamName:string) => {
@@ -68,7 +68,7 @@ const LeaderTeamView:React.FC = () => {
     useEffect(
         () => {
             getMembers('Users');
-            store.dispatch({type:'GET_TEAMS_DATA', payload:{email:login.data._data.email}});
+            store.dispatch({type:'GET_TEAMS_DATA', payload:{email:login.data.email}});
         },[]
     )
     return(

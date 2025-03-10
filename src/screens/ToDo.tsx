@@ -31,8 +31,8 @@ const ToDo:React.FC = () => {
         setSelectedTask(index);
     }
     const onGetTasksPress = ():void => {
-        console.log("todo: " + login.data._data.email);
-        store.dispatch({type:'GET_TASKS', payload:{collectionName:'Tasks', memberId:login.data._data.email}})
+        console.log("todo: " + login.data.email);
+        store.dispatch({type:'GET_TASKS', payload:{collectionName:'Tasks', memberId:login.data.email}})
 
     }
     const onAddCommentPress = (taskName:string, name:string, id:string, message:string) => {
@@ -65,7 +65,7 @@ const ToDo:React.FC = () => {
     }
 
     const sync = async() => {
-        await WatermelonHelper.syncFirestoreAndWatermelonDB('Tasks', login.data._data.email);
+        await WatermelonHelper.syncFirestoreAndWatermelonDB('Tasks', login.data.email);
     }
       
     useEffect(
@@ -185,8 +185,8 @@ const ToDo:React.FC = () => {
                                 text="Send"
                                 onPress={()=>onAddCommentPress(
                                     tasks.data[selectedTask]._data.taskName,
-                                    login.data._data.name,
-                                    login.data._data.email,
+                                    login.data.name,
+                                    login.data.email,
                                     comment,
                                 )}
                             />

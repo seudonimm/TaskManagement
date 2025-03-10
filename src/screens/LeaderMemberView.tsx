@@ -64,7 +64,7 @@ const LeaderMemberView:React.FC<Props> = (props) => {
         return(
             <CustomFlatListItem
                 text={item._data.name}
-                onViewPress={() => onViewButtonPress('Users', login.data._data.email, teamName, item._data.name, item._data.email)}
+                onViewPress={() => onViewButtonPress('Users', login.data.email, teamName, item._data.name, item._data.email)}
                 onDeletePress={() => onDeleteButtonPress}
                 image={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/member.png')}
             />
