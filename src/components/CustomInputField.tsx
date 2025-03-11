@@ -15,6 +15,7 @@ interface Props{
     ref?:React.LegacyRef<TextInput>,
     style?:object
     textWhite?:boolean
+    secureTextEntry?:boolean
 }
 const CustomInputField:React.FC<Props> = (props) => {
     const {text, inputErrorMessage, textWhite} = props;
@@ -27,7 +28,7 @@ const CustomInputField:React.FC<Props> = (props) => {
                     placeholder={text}
                     placeholderTextColor={((textWhite)?'white':'black')}
                     onChangeText={props.onChangeText}
-                    //cursorColor={'white'}
+                    secureTextEntry={props.secureTextEntry}
                 />
             </View>
             <Text style={styles.textStyle}>

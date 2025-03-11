@@ -6,13 +6,14 @@ import { BLUE, LIGHT_BLUE } from "../res/colors";
 
 interface Props{
     text:string,
-    image:string
+    image:string,
+    buttonText: string
     onViewPress: (event: GestureResponderEvent) => void,
     onDeletePress:(event: GestureResponderEvent) => void
 }
 
 const CustomFlatListItem:React.FC<Props> = (props) => {
-    const {text, image } = props;
+    const {text, image, buttonText } = props;
 
     return(
         <SafeAreaView style={styles.outerContainer}>
@@ -29,7 +30,7 @@ const CustomFlatListItem:React.FC<Props> = (props) => {
                 </Text>
                 <View style={styles.buttonsContainer}>
                     <CustomButton
-                        text="View"
+                        text={buttonText}
                         onPress={props.onViewPress}
                     />
                     <CustomButton

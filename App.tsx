@@ -8,35 +8,30 @@ import './gesture-handler';
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
-import Login from './src/screens/Login';
 import { Provider } from 'react-redux';
 import {store, persistor} from './src/store/Store';
-import CreateAccount from './src/screens/CreateAccount';
 import AppNavigation from './src/navigation';
-import LinearGradient from 'react-native-linear-gradient';
-import { BLACK, PURPLE } from './src/res/colors';
 import { PersistGate } from 'redux-persist/integration/react';
+import { CalendarProvider } from 'react-native-calendars';
 
 
 
 function App(): React.JSX.Element {
-  
+  let date = new Date();
   return (
+    <CalendarProvider
+    date={date.toDateString()}>
+
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppNavigation/>
+            <AppNavigation/>
         </PersistGate>
       </Provider>
+      </CalendarProvider>
+
   );
 }
 

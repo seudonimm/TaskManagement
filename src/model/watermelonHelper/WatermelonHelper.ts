@@ -27,7 +27,7 @@ class WatermelonHelper{
                     task.dateDueAt = currentTask.dateDue,
                     task.dateAssignedAt = currentTask.dateAssigned
                 })
-                console.log("save Task: " + newTask);
+                // console.log("save Task: " + newTask);
             })
         }catch(e){
             console.log(e);
@@ -37,7 +37,7 @@ class WatermelonHelper{
     getTasksFromDB = async(tableName:string) => {
         try{
             const res = await database.get(tableName).query().fetch();
-            console.log("get task: " + res);
+            // console.log("get task: " + res);
 
             return res;
         }catch(e){

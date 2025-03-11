@@ -12,7 +12,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { PURPLE, BLACK, LIGHT_BLUE, BLUE } from "../res/colors";
 import Subtext from "../components/Subtext";
 import { blue } from "react-native-reanimated/lib/typescript/Colors";
-
+import * as util from 'util'
 type Props = StaticScreenProps<{
     teamName:string
 }>
@@ -34,6 +34,34 @@ const LeaderMemberView:React.FC<Props> = (props) => {
 
     const [teamMembers, setTeamMembers] = useState<object>({});
 
+    const [unassignedMembers, setUnassignedMembers] = useState<Array<object>>([{}])
+    const removeAddedMembers = (assignedMemberArray:Array<object>, unassignedMemberArray:Array<object>) => {
+        let arrayToReturn = [];
+        console.log("looping?")
+
+        if(assignedMemberArray.length == 0){
+            for(let i = 0; i < unassignedMemberArray.length; i++){
+                arrayToReturn.push(unassignedMemberArray[i]._data);
+            }
+            setUnassignedMembers(arrayToReturn);
+        } else {
+            for(let i = 0; i < unassignedMemberArray.length; i++){
+                let addToArray = true
+                console.log("_data: " + JSON.stringify(unassignedMemberArray[i]._data))
+                console.log("_data: " + JSON.stringify(assignedMemberArray[i]))
+                for(let j = 0; j < assignedMemberArray.length; j++){
+                    if(unassignedMemberArray[i]._data.email == assignedMemberArray[j].id){
+                        addToArray = false;
+                    }
+                }
+                if(addToArray){
+                    arrayToReturn.push(unassignedMemberArray[i]._data);
+                }
+            }
+
+            setUnassignedMembers(arrayToReturn);
+        }
+    }
 
     const onViewButtonPress = (collectionName:string, docName:string, teamName:string, memberName:string, memberId:string) => {
         store.dispatch({type:'ADD_MEMBER_TO_TEAM', payload:{collectionName, docName, teamName, memberName, memberId}})
@@ -57,16 +85,18 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                 onViewPress={() => onViewButtonPress}
                 onDeletePress={() => onDeleteButtonPress}
                 image={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/member.png')}
+                buttonText="Add"
             />
         )
     }
     const toRenderAllMembersFlatListItem = ({item}:{item:MemberType}):React.JSX.Element => {
         return(
             <CustomFlatListItem
-                text={item._data.name}
-                onViewPress={() => onViewButtonPress('Users', login.data.email, teamName, item._data.name, item._data.email)}
+                text={item.name}
+                onViewPress={() => onViewButtonPress('Users', login.data.email, teamName, item.name, item.email)}
                 onDeletePress={() => onDeleteButtonPress}
                 image={require('/Users/jusman/Documents/Training/Projects/TaskManagement/assets/member.png')}
+                buttonText="Add"
             />
         )
     }
@@ -80,6 +110,13 @@ const LeaderMemberView:React.FC<Props> = (props) => {
             console.log(teams.teams[teamName].members);
             console.log("teamname: " + teamName)
         },[]
+    )
+
+    useEffect(
+        () => {
+            removeAddedMembers(teams.teams[teamName].members,teams.members._docs)
+            console.log("unassigned members: " + JSON.stringify((unassignedMembers)));
+        },[teams.teams[teamName].members]
     )
     return(
 
@@ -101,7 +138,8 @@ const LeaderMemberView:React.FC<Props> = (props) => {
                         text={"Other Members"}
                 />
                 <FlatList
-                    data={teams.members._docs}
+                    //data={teams.members._docs}
+                    data={unassignedMembers}
                     renderItem={toRenderAllMembersFlatListItem}
                 />
             </View>

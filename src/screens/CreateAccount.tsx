@@ -65,6 +65,7 @@ const CreateAccount:React.FC = () => {
                 <CustomInputField
                     text="Password"
                     onChangeText={(t:string) => setPassword(t)}
+                    secureTextEntry={true}
                 />
                 <CustomPressable
                     text="To Login"

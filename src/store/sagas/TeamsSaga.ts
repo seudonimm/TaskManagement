@@ -49,7 +49,7 @@ function* createTeam (action:PayloadAction<TeamsActionType>):Generator {
             name:teamName,
             members:[]
         }
-        yield put(createTeamSuccess({success: true, data: res, teamName:teamName}))
+        yield put(createTeamSuccess({success: true, data: obj, teamName:teamName}))
     } catch (e) {
         yield put(createTeamFailure({success: false, data: {e}}))
     }

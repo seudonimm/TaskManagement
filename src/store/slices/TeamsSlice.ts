@@ -31,7 +31,6 @@ const TeamsSlice:Slice = createSlice({
 
         },
         getMemberUsersSuccess: (state:StateType, action:PayloadAction<ActionType>) => {
-            //console.log('s;lkdfjal;skdfj;alksdjf;alksdfj:' +JSON.stringify(action.payload.data))
 
             state.members = action.payload.data
         },
@@ -45,7 +44,7 @@ const TeamsSlice:Slice = createSlice({
             console.log(action.payload);
             let obj ={
                 name:action.payload.teamName,
-                members:{}
+                members:[]
             }
             state.teams[action.payload.teamName] = obj;
         },

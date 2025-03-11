@@ -43,6 +43,7 @@ const Login:React.FC = () => {
                     text="Password"
                     onChangeText={(t:string):void => setPassword(t)}
                     textWhite={false}
+                    secureTextEntry={true}
                 />
                 <CustomPressable
                     text="Create Account"

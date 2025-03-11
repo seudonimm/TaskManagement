@@ -58,8 +58,9 @@ function* createAccount(action:PayloadAction<ActionType>):Generator{
         const {name, email, password, leader} = action.payload;
         console.log('create account dispatched')
         let res = yield call(auth().createUserWithEmailAndPassword, email, password);
-        //console.log('res ' + res);
-        yield put(createAccountSuccess({data:res.user, name:name, leader:leader}));
+        let authRes = yield call(FirestoreHelper.getFirestoreData, 'Users', email);
+
+        yield put(createAccountSuccess({data:res.user, name:name, leader:leader, authRes:{...authRes._data}}));
     }catch(e:any){
         console.log('fffff')
         if(e.code === 'auth/email-already-in-use'){

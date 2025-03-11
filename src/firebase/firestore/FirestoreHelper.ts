@@ -14,7 +14,7 @@ class FirestoreHelper{
                 .set({
                     name:name,
                     email:email,
-                    leader:leader,
+                    leader:true,
                     teams:{}
                 })
             } else {
@@ -24,7 +24,7 @@ class FirestoreHelper{
                 .set({
                     name:name,
                     email:email,
-                    leader:leader
+                    leader:false
                 })
             }
         } catch (e) {
@@ -136,12 +136,6 @@ class FirestoreHelper{
                     timeSent:new Timestamp(4, 3)
                 }]
             });
-            // await res.doc(docName).collection('Comments').set({
-            //     name:'testName',
-            //     id:'testId',
-            //     message:'testMessage',
-            //     timeSent:new Timestamp(4, 3)
-            // });
         } catch (e) {
             console.log(e);
         }
@@ -158,7 +152,7 @@ class FirestoreHelper{
 
     getTasks = async(collectionName:string, memberId:string) => {
         try {
-            console.log("helper: " + memberId);
+            //console.log("helper: " + memberId);
             //let res = await firestore().collection(collectionName).where('assignedTo', '==', `${memberId}`).orderBy('dateDue', 'asc').get();
             let res = await firestore().collection(collectionName).where(Filter('assignedTo', '==', `${memberId}`)).orderBy('dateDue', 'asc').get();
 

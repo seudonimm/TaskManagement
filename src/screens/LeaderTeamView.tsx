@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, FlatList, Modal, StyleSheet, View } from "react-native";
 import CustomButton from "../components/CustomButton";
-import LogoutButton from "../components/LogoutButton";
 import { useSelector } from "react-redux";
 import {store, RootState } from "../store/Store";
 import CustomFlatListItem from "../components/CustomFlatListItem";
-import FirestoreHelper from "../firebase/firestore/FirestoreHelper";
 import { useNavigation } from "@react-navigation/native";
 import CustomInputField from "../components/CustomInputField";
-import { collection } from "@react-native-firebase/firestore";
-import { BLACK, BLUE, PURPLE } from "../res/colors";
-import LinearGradient from "react-native-linear-gradient";
+import { BLUE, PURPLE } from "../res/colors";
 import Header from "../components/Header";
 
 const LeaderTeamView:React.FC = () => {
@@ -23,7 +19,7 @@ const LeaderTeamView:React.FC = () => {
     const [teamName, setTeamName] = useState<string>('');
     const [createTeamModalVisible, setCreateTeamModalVisible] = useState<boolean>(false);
 
-    const [teamMembers, setTeamMembers] = useState<object>({});
+    // const [teamMembers, setTeamMembers] = useState<object>({});
 
     const onCreateTeamPress = async(teamName:string):Promise<void> => {
         // FirestoreHelper.createTeam('Users', login.data._data.email,teamName);
@@ -38,12 +34,6 @@ const LeaderTeamView:React.FC = () => {
 
     }
 
-    const getMembers = async (collectionName:string) => {
-        // let members = await FirestoreHelper.getMemberUsers('Users');
-        // setTeamMembers(members);
-        //store.dispatch({type:'GET_MEMBER_USERS', payload:{collectionName}})
-    }
-
     const toRenderFlatListItem = ({item}:{item:string}) => {
         console.log('to top')
         return(
@@ -52,6 +42,7 @@ const LeaderTeamView:React.FC = () => {
                 onViewPress={() => onViewButtonPress(item)}
                 onDeletePress={() => onDeleteButtonPress}
                 image={require("/Users/jusman/Documents/Training/Projects/TaskManagement/assets/team.png")}
+                buttonText="View"
             />
         )
     }
@@ -67,7 +58,6 @@ const LeaderTeamView:React.FC = () => {
 
     useEffect(
         () => {
-            getMembers('Users');
             store.dispatch({type:'GET_TEAMS_DATA', payload:{email:login.data.email}});
         },[]
     )

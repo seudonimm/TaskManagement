@@ -10,8 +10,8 @@ class CalendarHelper{
 
     addEventToCalendar = (title:string, description:string, location:string, startTime:Date, endTime:Date) => {
         const {CalendarModule} = NativeModules;
-        console.log("start: " + startTime);
-        console.log("end: " + endTime);
+        // console.log("start: " + startTime);
+        // console.log("end: " + endTime);
         CalendarModule.addEvent(
           title,
           description,
@@ -23,47 +23,12 @@ class CalendarHelper{
             console.log(successMessage); // Event added successfully
           },
           (errorMessage) => {
-            console.error(errorMessage); // Error occurred
+            console.log(errorMessage); // Error occurred
           }
         );
       };
 
 
-    requestPermission = async() => {
-        try {
-            let res = await RNCalendarEvents.requestPermissions();    
-            return res; 
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    findCalendars = async() => {
-        try {
-            let res = await RNCalendarEvents.findCalendars();  
-            return res;  
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    createCalendar = async(calendar) => {
-        try {
-            let res = await RNCalendarEvents.saveCalendar(calendar);  
-            return res;  
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    createEvent = async(title:string, details:object, options?:object) => {
-        try {
-            RNCalendarEvents.saveEvent(title, details, options);
-            console.log("event saved");
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
 }
 export default new CalendarHelper;

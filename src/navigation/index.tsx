@@ -93,7 +93,7 @@ const MemberDrawer = createDrawerNavigator({
 
     screens: {
         Tasks:TaskStack,
-        Settings:Settings
+        Logout:Settings
 
     }
 });
@@ -119,7 +119,7 @@ const LeaderDrawer = createDrawerNavigator({
         Teams:LeaderStack,
         CreateTasks: CreateTasks,
         LeaderTaskView:LeaderTaskView,
-        Settings:Settings
+        Logout:Settings
 
     }
 });

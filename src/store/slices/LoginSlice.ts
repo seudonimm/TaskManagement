@@ -34,7 +34,9 @@ const loginSlice:Slice = createSlice({
             state.user = action.payload.data
             state.loggedIn = true;
             state.leader = action.payload.leader;
-            console.log(state);
+            state.data = action.payload.authRes
+
+            //console.log(state);
             //store.dispatch({type:'SET_AUTH', payload:{collectionName:'Users', name:name, email:email, leader:leader}})
         },
         createAccountFailure: () => {

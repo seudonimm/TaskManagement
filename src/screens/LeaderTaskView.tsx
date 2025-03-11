@@ -13,24 +13,23 @@ import CommentListItem from "../components/CommentListItem";
 import CustomInputField from "../components/CustomInputField";
 
 const LeaderTaskView:React.FC = () => {
-    const tasks:any = useSelector((state:RootState) => state.tasks);
+    const tasks = useSelector((state:RootState) => state.tasks);
     const login = useSelector((state:RootState) => state.login);
 
     const [taskModalVisible, setTaskModalVisible] = useState<boolean>(false);
     const [selectedTask, setSelectedTask] = useState<number>(0);
 
     const [loading, setLoading] = useState<boolean>(true);
-    const [taskArray, setTaskArray] = useState<Array<object>>([]);
    
     const [comment, setComment] = useState<string>('');
 
-    const commentListRef = useRef();
+    // const commentListRef = useRef();
     const onTaskItemPress = (index:number):void => {
         setTaskModalVisible(true);
         setSelectedTask(index);
     }
     const onGetTasksPress = ():void => {
-        console.log("todo: " + login.data.email);
+        // console.log("todo: " + login.data.email);
         store.dispatch({type:'GET_ALL_TASKS', payload:{collectionName:'Tasks', memberId:login.data.email}})
 
     }
@@ -68,7 +67,7 @@ const LeaderTaskView:React.FC = () => {
     }
       
     useEffect(
-        () => {console.log(tasks);
+        () => {
                 onGetTasksPress();
                 sync();
         },[]
@@ -78,20 +77,12 @@ const LeaderTaskView:React.FC = () => {
             console.log('runing')
             if(tasks.data[selectedTask]){
                 setLoading(false);
-                console.log(tasks.data);
-                console.log(taskArray);
+                // console.log(tasks.data);
+                // console.log(taskArray);
             }
-            if(!loading){
-                //setTaskArray(tasks.data._docs);
-                console.log('task array assign')
-
-            }
-            // for(let e of tasks.data){
-            //     CalendarHelper.addEventToCalendar(e._data.taskName, e._data.task, e._data.task, e._data.dateAssigned.toDate(), e._data.dateDue.toDate());
-            // }
         },[tasks.data, tasks]
     )
-    //const [date, setDate] = useState<Date>(new Date)
+    
     return(
         <SafeAreaView style={styles.container}>
             {/* <View style={{flex:1, zIndex:1}}>
@@ -118,11 +109,11 @@ const LeaderTaskView:React.FC = () => {
                     transparent={true}
                 >
                     <View style={styles.modalContainer}>
-                        <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
+                    <HeaderSmall style={{marginBottom: '1%', fontSize: 20}}
                             text={'Task'}
                         />
                         <View style={styles.modelTaskItemContainer}>
-                            <Subtext 
+                        <Subtext style={{margin: '1%'}}
                                 text={!loading?tasks.data[selectedTask]._data.taskName:'loading'}
                             />
                         </View>
@@ -130,7 +121,7 @@ const LeaderTaskView:React.FC = () => {
                             text={'Description'}
                         />
                         <View style={styles.modelTaskItemContainer}>
-                            <Subtext
+                        <Subtext style={{margin: '1%'}}
                                 text={!loading?tasks.data[selectedTask]._data.task:'loading'}
                             />
                         </View>
@@ -148,7 +139,7 @@ const LeaderTaskView:React.FC = () => {
                             text={'Date Due'}
                         />
                         <View style={styles.modelTaskItemContainer}>
-                            <Subtext
+                            <Subtext style={{margin: '1%'}}
                                 text={!loading?
                                     (tasks.data[selectedTask]._data.dateDue.toDate().toLocaleDateString() + " " + tasks.data[selectedTask]._data.dateDue.toDate().toLocaleTimeString()):
                                     'loading'}
@@ -165,19 +156,19 @@ const LeaderTaskView:React.FC = () => {
                             />
                         </View>
                         <View style={styles.modelTaskItemContainer}>
-                            <FlatList style={{height: '30%'}}
+                            <FlatList style={{height: '40%'}}
                                 data={!loading?tasks.data[selectedTask]._data.comments:[]}
                                 renderItem={toRenderFlatListComments}
                                 keyExtractor={(item) => item.id + item.timeSent}
                                 extraData={tasks.comments}
                             />
                         </View>
-                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                            <CustomInputField style={{flex: 1, width: '85%'}}
+                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: 'white', borderRadius: 20}}>
+                            <CustomInputField style={styles.modalInputStyle}
                                 text="Enter Comment..."
-                                onChangeText={t => setComment(t)}
+                                onChangeText={(t) => setComment(t)}
                             />
-                            <CustomButton style={{backgroundColor: 'black', width: '20%', flex: 0, justifyContent: 'center', alignItems: 'center'}}
+                            <CustomButton style={{backgroundColor: 'black', width: '20%', flex: 0, justifyContent: 'flex-start',  padding: '2%', }}
                                 text="Send"
                                 onPress={()=>onAddCommentPress(
                                     tasks.data[selectedTask]._data.taskName,
@@ -258,8 +249,14 @@ const styles = StyleSheet.create({
             height: 25
         },
         margin: '1%'
-
+    },
+    modalInputStyle: {
+        flex: 0, 
+        width: '73%', 
+        height: '80%', 
+        marginTop: '6%'
     }
+
 
 })
 export default LeaderTaskView;
